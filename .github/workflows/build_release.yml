@@ -1,0 +1,178 @@
+name: Build Godot Project For Releases
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  Godot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.1
+        with:
+          lfs: true
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Check release name
+        run: |
+          echo "Release Name:" ${{github.event.release.name}}
+          export DISPLAY=":0"
+      - name: Get test name
+        id: test_name
+        run: |
+          echo "name=$(cat test_name.txt)" >> "$GITHUB_OUTPUT"
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.4.0
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3.2.1
+      - name: Set Project Name and other stuff
+        run: |
+          sed -i "s/mlgs/My Little Godot Shark - v${{github.event.release.name}}/g" project.godot
+          sed -i "s/0.0.0.0/${{github.event.release.name}}/g" project.godot
+          export GODOT_ANDROID_KEYSTORE_DEBUG_PATH=.\debug.keystore
+          export GODOT_ANDROID_KEYSTORE_DEBUG_USER=root
+          export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=123456
+          export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=.\release.keystore
+          export GODOT_ANDROID_KEYSTORE_RELEASE_USER=root
+          export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=123456
+          if [ ${{steps.get_release.outputs.prerelease}} == 'true' ]; then
+            echo "this is a pre_release!"
+            echo 'sed -i "s/Dev Build/v${{github.event.release.name}} - ${{steps.test_name.outputs.name}}/g" scenes/player.tscn'
+          else
+            echo "this is a normal release!"
+            echo 'sed -i "s/Dev Build/v${{github.event.release.name}}/g" scenes/player.tscn'
+          fi
+      - name: export game
+        id: export
+        uses: firebelley/godot-export@v6.0.0
+        with:
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_export_templates.tpz
+          relative_project_path: ./
+          export_debug: ${{steps.get_release.outputs.prerelease}}
+      - name: Upload Artifact For Linux x64 To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_name: Linux x64 - v${{github.event.release.name}}.x86_64
+          asset_path: /home/runner/.local/share/godot/builds/Linux x64/linux.x86_64
+          asset_content_type: application/zip
+      - name: Upload Artifact For Linux x86 To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_name: Linux x86 - v${{github.event.release.name}}.x86_32
+          asset_path: /home/runner/.local/share/godot/builds/Linux x86/linux.x86_32
+          asset_content_type: application/zip
+      - name: Upload Artifact For Linux arm64 To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_name: Linux arm64 - v${{github.event.release.name}}.arm64
+          asset_path: /home/runner/.local/share/godot/builds/Linux arm64/linux.arm64
+          asset_content_type: application/zip
+      - name: Upload Artifact For Linux arm32 To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_name: Linux arm32 - v${{github.event.release.name}}.arm32
+          asset_path: /home/runner/.local/share/godot/builds/Linux arm32/linux.arm32
+          asset_content_type: application/zip
+      #- name: Upload Artifact For Linux rv64 To Release
+      #  uses: actions/upload-release-asset@main
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #  with:
+      #    upload_url: ${{steps.get_release.outputs.upload_url}}
+      #    asset_name: Linux rv64 - v${{github.event.release.name}}.rv64
+      #    asset_path: /home/runner/.local/share/godot/builds/Linux rv64/linux.rv64
+      #    asset_content_type: application/zip
+      #- name: Upload Artifact For Linux ppc64 To Release
+      #  uses: actions/upload-release-asset@main
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #  with:
+      #    upload_url: ${{steps.get_release.outputs.upload_url}}
+      #    asset_name: Linux ppc64 - v${{github.event.release.name}}.ppc64
+      #    asset_path: /home/runner/.local/share/godot/builds/Linux ppc64/linux.ppc64
+      #    asset_content_type: application/zip
+      #- name: Upload Artifact For Linux ppc32 To Release
+      #  uses: actions/upload-release-asset@main
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #  with:
+      #    upload_url: ${{steps.get_release.outputs.upload_url}}
+      #    asset_name: Linux ppc32 - v${{github.event.release.name}}.ppc32
+      #    asset_path: /home/runner/.local/share/godot/builds/Linux ppc32/linux.ppc32
+      #    asset_content_type: application/zip
+      #- name: Upload Artifact For MacOS To Release
+      #  uses: actions/upload-release-asset@main
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #  with:
+      #    upload_url: ${{steps.get_release.outputs.upload_url}}
+      #    asset_path: /home/runner/.local/share/godot/builds/macOS/mac.zip
+      #    asset_name: MacOS - v${{github.event.release.name}}.zip
+      #    asset_content_type: application/zip
+      - name: Upload Artifact For Windows x64 To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_path: /home/runner/.local/share/godot/builds/Windows Desktop x64/win64.exe
+          asset_name: Windows x64 - v${{github.event.release.name}}.exe
+          asset_content_type: application/zip
+      - name: Upload Artifact For Windows x86 To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_path: /home/runner/.local/share/godot/builds/Windows Desktop x86/win86.exe
+          asset_name: Windows x86 - v${{github.event.release.name}}.exe
+          asset_content_type: application/zip
+      - name: Upload Artifact For Windows arm64 To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_path: /home/runner/.local/share/godot/builds/Windows Desktop arm64/winarm64.exe
+          asset_name: Windows arm64 - v${{github.event.release.name}}.exe
+          asset_content_type: application/zip
+      - name: Upload Artifact For Android To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_path: /home/runner/.local/share/godot/builds/Android/android.apk
+          asset_name: Android - v${{github.event.release.name}}.apk
+          asset_content_type: application/zip
+      - name: Pack Web Artifacts
+        run: |
+          7z a /home/runner/.local/share/godot/builds/Web/web.zip /home/runner/.local/share/godot/builds/Web/*
+      - name: Upload Artifact For Web To Release
+        uses: actions/upload-release-asset@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{steps.get_release.outputs.upload_url}}
+          asset_path: /home/runner/.local/share/godot/builds/Web/web.apk
+          asset_name: Web - v${{github.event.release.name}}.apk
+          asset_content_type: application/zip

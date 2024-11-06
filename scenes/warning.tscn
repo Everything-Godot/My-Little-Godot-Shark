@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvgdp4lkrdgtb"]
+
+[ext_resource type="Texture2D" uid="uid://qbsdexnj2qel" path="res://pics/warning.png" id="1_gaxtm"]
+[ext_resource type="Script" path="res://scripts/warning.gd" id="1_m84g7"]
+
+[sub_resource type="Animation" id="Animation_38m4n"]
+resource_name = "warning"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3.5, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_bqvjm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tm4ii"]
+_data = {
+"RESET": SubResource("Animation_bqvjm"),
+"warning": SubResource("Animation_38m4n")
+}
+
+[node name="Warning" type="Node2D" node_paths=PackedStringArray("anim")]
+script = ExtResource("1_m84g7")
+anim = NodePath("AnimationPlayer")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -36.0
+offset_top = -34.0
+offset_right = 838.0
+offset_bottom = 872.0
+color = Color(0, 0, 0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_gaxtm")
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tm4ii")
+}

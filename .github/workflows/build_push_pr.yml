@@ -1,0 +1,126 @@
+name: Build Godot Project With Latest Codes
+
+on:
+  push: {}
+  pull_request: {}
+
+jobs:
+  Godot:
+    env:
+      dev_ver:
+        "1.0.0"
+      dev_text:
+        "dev build"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.1
+        with:
+          lfs: true
+      - name: Get tag or commit id
+        id: get-version-id
+        uses: iawia002/get-tag-or-commit-id@v1.0.1
+        with:
+          length: 7
+      - name: Get test name
+        id: test_name
+        run: |
+          export name=$(cat test_name.txt)
+          echo $name
+          echo "name=$(cat test_name.txt)" >> "$GITHUB_OUTPUT"
+      - name: Check commit ids and set android export settings
+        run: |
+          echo "COMMIT ID:" ${{steps.get-version-id.outputs.id}}
+          export GODOT_ANDROID_KEYSTORE_DEBUG_PATH=.\debug.keystore
+          export GODOT_ANDROID_KEYSTORE_DEBUG_USER=root
+          export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=123456
+          export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=.\release.keystore
+          export GODOT_ANDROID_KEYSTORE_RELEASE_USER=root
+          export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=123456
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.4.0
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3.2.1
+      - name: Set Project Name
+        run: |
+          sed -i "s/mlgs/My Little Godot Shark - ${{env.dev_text}}/g" project.godot
+          sed -i "s/0.0.0.0/${{env.dev_ver}}/g" project.godot
+          echo 'sed -i "s/Dev Build/commit id: ${{steps.get-version-id.outputs.id}} - ${{steps.test_name.outputs.name}}/g" scenes/player.tscn'
+      - name: export game
+        id: export
+        uses: firebelley/godot-export@v6.0.0
+        with:
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_export_templates.tpz
+          relative_project_path: ./
+          export_debug: true
+      - name: Upload Artifact For Linux x64
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Linux x64 - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Linux x64/linux.x86_64
+      - name: Upload Artifact For Linux x86
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Linux x86 - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Linux x86/linux.x86_32
+      - name: Upload Artifact For Linux arm64
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Linux arm64 - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Linux arm64/linux.arm64
+      - name: Upload Artifact For Linux arm32
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Linux arm32 - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Linux arm32/linux.arm32
+      #- name: Upload Artifact For Linux rv64
+      #  uses: actions/upload-artifact@v4.4.3
+      #  with:
+      #    name: Linux rv64 - build ${{steps.get-version-id.outputs.id}}
+      #    path: /home/runner/.local/share/godot/builds/Linux rv64/linux.rv64
+      #- name: Upload Artifact For Linux rppc64
+      #  uses: actions/upload-artifact@v4.4.3
+      #  with:
+      #    name: Linux ppc64 - build ${{steps.get-version-id.outputs.id}}
+      #    path: /home/runner/.local/share/godot/builds/Linux ppc64/linux.ppc64
+      #- name: Upload Artifact For Linux ppc32
+      #  uses: actions/upload-artifact@v4.4.3
+      #  with:
+      #    name: Linux ppc32 - build ${{steps.get-version-id.outputs.id}}
+      #    path: /home/runner/.local/share/godot/builds/Linux ppc32/linux.ppc32
+      #- name: Upload Artifact For MacOS
+      #  uses: actions/upload-artifact@v4.4.3
+      #  with:
+      #    name: MacOS - build ${{steps.get-version-id.outputs.id}}
+      #    path: /home/runner/.local/share/godot/builds/macOS/mac.zip
+      - name: Upload Artifact For Windows x64
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Windows x64 - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Windows Desktop x64/win64.exe
+      - name: Upload Artifact For Windows x86
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Windows x86 - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Windows Desktop x86/win86.exe
+      - name: Upload Artifact For Windows arm64
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Windows arm64 - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Windows Desktop arm64/winarm64.exe
+      - name: Upload Artifact For Android
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Android - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Android/android.apk
+      - name: Pack Web Artifacts
+        run: |
+          7z a /home/runner/.local/share/godot/builds/Web/web.zip /home/runner/.local/share/godot/builds/Web/*
+      - name: Upload Artifact For Web
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: Web - build ${{steps.get-version-id.outputs.id}}
+          path: /home/runner/.local/share/godot/builds/Web/web.zip

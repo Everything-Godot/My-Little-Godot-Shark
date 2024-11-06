@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://30bwmcq8g0a0"
+path="res://.godot/imported/呼……这一次终于不用 再被 变成 电子程序了.mp3-1f42db9b537181ba5fba86a1ae01dc50.mp3str"
+
+[deps]
+
+source_file="res://media/流浪鲨鱼带回家/呼……这一次终于不用 再被 变成 电子程序了.mp3"
+dest_files=["res://.godot/imported/呼……这一次终于不用 再被 变成 电子程序了.mp3-1f42db9b537181ba5fba86a1ae01dc50.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

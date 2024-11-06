@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dm5qanquceakb"
+path="res://.godot/imported/其实……我有点怕黑， 可以开灯吗？.mp3-f6af8b4ecf37327d036f3f7102df2e8a.mp3str"
+
+[deps]
+
+source_file="res://media/开关灯/其实……我有点怕黑， 可以开灯吗？.mp3"
+dest_files=["res://.godot/imported/其实……我有点怕黑， 可以开灯吗？.mp3-f6af8b4ecf37327d036f3f7102df2e8a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

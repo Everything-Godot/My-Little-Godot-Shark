@@ -4,4 +4,5 @@ extends Node2D
 @export var anim : AnimationPlayer
 
 func _ready() -> void:
-	anim.play("warning")
+	await anim.animation_finished
+	get_tree().change_scene_to_file("res://scenes/logo.tscn")

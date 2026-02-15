@@ -164,15 +164,15 @@ jobs:
       #    asset_path: /home/runner/.local/share/godot/builds/Android/android.apk
       #    asset_name: Android - v${{github.event.release.name}}.apk
       #    asset_content_type: application/zip
-      #- name: Pack Web Artifacts
-      #  run: |
-      #    7z a /home/runner/.local/share/godot/builds/Web/web.zip /home/runner/.local/share/godot/builds/Web/*
+      - name: Pack Web Artifacts
+        run: |
+          7z a /home/runner/.local/share/godot/builds/Web/web.zip /home/runner/.local/share/godot/builds/Web/*
       - name: Upload Artifact For Web To Release
         uses: actions/upload-release-asset@main
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
-          asset_path: /home/runner/.local/share/godot/builds/Web/web.apk
-          asset_name: Web - v${{github.event.release.name}}.apk
+          asset_path: /home/runner/.local/share/godot/builds/Web/web.7z
+          asset_name: Web - v${{github.event.release.name}}.7z
           asset_content_type: application/zip

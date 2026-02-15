@@ -116,9 +116,9 @@ jobs:
       #  with:
       #    name: Android - build ${{steps.get-version-id.outputs.id}}
       #    path: /home/runner/.local/share/godot/builds/Android/android.apk
-      - name: Pack Web Artifacts
-        run: |
-          7z a /home/runner/.local/share/godot/builds/Web/web.zip /home/runner/.local/share/godot/builds/Web/*
+      #- name: Pack Web Artifacts
+      #  run: |
+      #    7z a /home/runner/.local/share/godot/builds/Web/web.zip /home/runner/.local/share/godot/builds/Web/*
       - name: Upload Artifact For Web
         uses: actions/upload-artifact@v4.4.3
         with:

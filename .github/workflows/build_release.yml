@@ -24,23 +24,17 @@ jobs:
         id: test_name
         run: |
           echo "name=$(cat test_name.txt)" >> "$GITHUB_OUTPUT"
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.4.0
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3.2.1
+      #- name: Set up JDK 17
+      #  uses: actions/setup-java@v4.4.0
+      #  with:
+      #    java-version: '17'
+      #    distribution: 'temurin'
+      #- name: Setup Android SDK
+      #  uses: android-actions/setup-android@v3.2.1
       - name: Set Project Name and other stuff
         run: |
           sed -i "s/mlgs/My Little Godot Shark - v${{github.event.release.name}}/g" project.godot
           sed -i "s/0.0.0.0/${{github.event.release.name}}/g" project.godot
-          export GODOT_ANDROID_KEYSTORE_DEBUG_PATH=.\debug.keystore
-          export GODOT_ANDROID_KEYSTORE_DEBUG_USER=root
-          export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=123456
-          export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=.\release.keystore
-          export GODOT_ANDROID_KEYSTORE_RELEASE_USER=root
-          export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=123456
           if [ ${{steps.get_release.outputs.prerelease}} == 'true' ]; then
             echo "this is a pre_release!"
             echo 'sed -i "s/Dev Build/v${{github.event.release.name}} - ${{steps.test_name.outputs.name}}/g" scenes/player.tscn'
@@ -48,6 +42,12 @@ jobs:
             echo "this is a normal release!"
             echo 'sed -i "s/Dev Build/v${{github.event.release.name}}/g" scenes/player.tscn'
           fi
+      #    export GODOT_ANDROID_KEYSTORE_DEBUG_PATH=.\debug.keystore
+      #    export GODOT_ANDROID_KEYSTORE_DEBUG_USER=root
+      #    export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=123456
+      #    export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=.\release.keystore
+      #    export GODOT_ANDROID_KEYSTORE_RELEASE_USER=root
+      #    export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=123456
       - name: export game
         id: export
         uses: firebelley/godot-export@v6.0.0
@@ -155,15 +155,15 @@ jobs:
           asset_path: /home/runner/.local/share/godot/builds/Windows Desktop arm64/winarm64.exe
           asset_name: Windows arm64 - v${{github.event.release.name}}.exe
           asset_content_type: application/zip
-      - name: Upload Artifact For Android To Release
-        uses: actions/upload-release-asset@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{steps.get_release.outputs.upload_url}}
-          asset_path: /home/runner/.local/share/godot/builds/Android/android.apk
-          asset_name: Android - v${{github.event.release.name}}.apk
-          asset_content_type: application/zip
+      #- name: Upload Artifact For Android To Release
+      #  uses: actions/upload-release-asset@main
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #  with:
+      #    upload_url: ${{steps.get_release.outputs.upload_url}}
+      #    asset_path: /home/runner/.local/share/godot/builds/Android/android.apk
+      #    asset_name: Android - v${{github.event.release.name}}.apk
+      #    asset_content_type: application/zip
       - name: Pack Web Artifacts
         run: |
           7z a /home/runner/.local/share/godot/builds/Web/web.zip /home/runner/.local/share/godot/builds/Web/*

@@ -27,22 +27,22 @@ jobs:
           export name=$(cat test_name.txt)
           echo $name
           echo "name=$(cat test_name.txt)" >> "$GITHUB_OUTPUT"
-      - name: Check commit ids and set android export settings
+      - name: Check commit ids #and set android export settings
         run: |
           echo "COMMIT ID:" ${{steps.get-version-id.outputs.id}}
-          export GODOT_ANDROID_KEYSTORE_DEBUG_PATH=.\debug.keystore
-          export GODOT_ANDROID_KEYSTORE_DEBUG_USER=root
-          export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=123456
-          export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=.\release.keystore
-          export GODOT_ANDROID_KEYSTORE_RELEASE_USER=root
-          export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=123456
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.4.0
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3.2.1
+      #    export GODOT_ANDROID_KEYSTORE_DEBUG_PATH=.\debug.keystore
+      #    export GODOT_ANDROID_KEYSTORE_DEBUG_USER=root
+      #    export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=123456
+      #    export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=.\release.keystore
+      #    export GODOT_ANDROID_KEYSTORE_RELEASE_USER=root
+      #    export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=123456
+      #- name: Set up JDK 17
+      #  uses: actions/setup-java@v4.4.0
+      #  with:
+      #    java-version: '17'
+      #    distribution: 'temurin'
+      #- name: Setup Android SDK
+      #  uses: android-actions/setup-android@v3.2.1
       - name: Set Project Name
         run: |
           sed -i "s/mlgs/My Little Godot Shark - ${{env.dev_text}}/g" project.godot
@@ -111,11 +111,11 @@ jobs:
         with:
           name: Windows arm64 - build ${{steps.get-version-id.outputs.id}}
           path: /home/runner/.local/share/godot/builds/Windows Desktop arm64/winarm64.exe
-      - name: Upload Artifact For Android
-        uses: actions/upload-artifact@v4.4.3
-        with:
-          name: Android - build ${{steps.get-version-id.outputs.id}}
-          path: /home/runner/.local/share/godot/builds/Android/android.apk
+      #- name: Upload Artifact For Android
+      #  uses: actions/upload-artifact@v4.4.3
+      #  with:
+      #    name: Android - build ${{steps.get-version-id.outputs.id}}
+      #    path: /home/runner/.local/share/godot/builds/Android/android.apk
       - name: Pack Web Artifacts
         run: |
           7z a /home/runner/.local/share/godot/builds/Web/web.zip /home/runner/.local/share/godot/builds/Web/*

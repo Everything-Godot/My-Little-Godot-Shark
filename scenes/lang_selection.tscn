@@ -30,9 +30,29 @@ use_hdr = true
 fill_from = Vector2(0, 1)
 fill_to = Vector2(0, 0)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_3s8pu"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(123, 128, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqxmu"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(82, 128, 39, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_vjqxu"]
 atlas = ExtResource("7_37m0h")
 region = Rect2(123, 192, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mbp5"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(41, 192, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwuiw"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(41, 192, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esmlr"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(0, 128, 39, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bm87u"]
 atlas = ExtResource("7_37m0h")
@@ -66,10 +86,40 @@ region = Rect2(0, 64, 39, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_3s8pu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqxmu")
+}],
+"loop": true,
+"name": &"advise",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_vjqxu")
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5mbp5")
+}],
+"loop": true,
+"name": &"happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwuiw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esmlr")
+}],
+"loop": true,
+"name": &"happy_talk",
 "speed": 5.0
 }, {
 "frames": [{
@@ -246,6 +296,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [&"question"]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SharkControl/Shark:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(450, 550)]
+}
 
 [sub_resource type="Animation" id="Animation_bm87u"]
 resource_name = "be_clicked"
@@ -260,7 +322,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1.08, 1.08), Vector2(1, 1)]
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -275,10 +337,27 @@ tracks/1/keys = {
 "values": [&"question", &"default"]
 }
 
+[sub_resource type="Animation" id="Animation_ojt0n"]
+resource_name = "happy"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SharkControl/Shark:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(450, 550), Vector2(450, 510), Vector2(450, 550), Vector2(450, 590), Vector2(450, 550), Vector2(450, 510), Vector2(450, 550), Vector2(450, 590), Vector2(450, 265)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ojt0n"]
 _data = {
 &"RESET": SubResource("Animation_awgpe"),
-&"be_clicked": SubResource("Animation_bm87u")
+&"be_clicked": SubResource("Animation_bm87u"),
+&"happy": SubResource("Animation_ojt0n")
 }
 
 [sub_resource type="Animation" id="Animation_37m0h"]
@@ -393,7 +472,7 @@ tracks/8/keys = {
 "times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [&"talk", 1.0, false],
+"args": [&"happy_talk", 1.0, false],
 "method": &"play"
 }]
 }

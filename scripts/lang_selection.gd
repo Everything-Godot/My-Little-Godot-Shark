@@ -80,33 +80,25 @@ func _on_japanese_pressed() -> void:
 func _on_chinese_button_pressed() -> void:
 	advice_timer.paused = true
 	animation_player.play("Chinese")
-	if not english_button.disabled:
-		english_button.disabled = true
-		restore_english = true
-	if not japanese_button.disabled:
-		japanese_button.disabled = true
-		restore_japanese = true
 	await animation_player.animation_finished
+	chinese_button.visible = false
+	japanese_button.visible = false
+	english_button.visible = false
 	chinese_button.material.set_shader_parameter("dark_amount", 0.35)
+	shark_anim_player.play("happy")
 	await talks.finished
-	if restore_english:
-		english_button.disabled = false
-		restore_english = false
-	if restore_japanese:
-		japanese_button.disabled = false
-		restore_japanese = false
-	shark.play("default")
+	shark.play("happy")
 
 func _on_shark_button_pressed() -> void:
 	if audios.playing: return
 	if click_counter == 9:
+		shark_button.disabled = true
 		talks.stream = 不要再点我啦
 		talks.play()
 		shark.play("talk_with_tired")
 		await talks.finished
 		shark.play("tired")
 		click_counter += 1
-		shark_button.disabled = true
 	elif click_counter < 9:
 		audios.stream = 小鲨鱼被点击
 		audios.play()
@@ -115,8 +107,10 @@ func _on_shark_button_pressed() -> void:
 		click_counter += 1
 
 func _on_advice_timer_timeout() -> void:
+	var save = shark.animation
 	talks.stream = 我觉得要不选中文吧_
 	talks.play()
+	shark.play("advise")
 	if not english_button.disabled:
 		english_button.disabled = true
 		restore_english = true
@@ -136,3 +130,4 @@ func _on_advice_timer_timeout() -> void:
 	if restore_chinese:
 		chinese_button.disabled = false
 		restore_chinese = false
+	shark.play(save)

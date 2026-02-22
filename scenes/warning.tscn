@@ -52,6 +52,7 @@ offset_bottom = 872.0
 color = Color(0, 0, 0, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=203670302]
+scale = Vector2(1, 1.0012485)
 texture = ExtResource("1_gaxtm")
 centered = false
 

@@ -1,0 +1,964 @@
+[gd_scene format=3 uid="uid://1son51gbs8me"]
+
+[ext_resource type="Script" uid="uid://bw32w3mda3c4n" path="res://scripts/lang_selection.gd" id="1_l8j5j"]
+[ext_resource type="Shader" uid="uid://bsax7nvwdy7j1" path="res://scripts/background.gdshader" id="1_ptp7h"]
+[ext_resource type="Texture2D" uid="uid://b234uhhiji6di" path="res://pics/logo背景-sheet0.png" id="2_qlk78"]
+[ext_resource type="Texture2D" uid="uid://bgiboftgq7akc" path="res://pics/shared-1-sheet3.png" id="3_8i3be"]
+[ext_resource type="AudioStream" uid="uid://cinmnt7357121" path="res://media/选语言BGM.mp3" id="3_qlk78"]
+[ext_resource type="Texture2D" uid="uid://cqrglc2apnyvt" path="res://resources/English.tres" id="4_sr7j5"]
+[ext_resource type="Texture2D" uid="uid://b8x8wa8e6dxya" path="res://pics/shared-1-sheet4.png" id="4_wpsap"]
+[ext_resource type="AudioStream" uid="uid://babshr3s5kmil" path="res://media/选语言/咚当.mp3" id="5_sr7j5"]
+[ext_resource type="AudioStream" uid="uid://bggccl237375p" path="res://media/选语言/选了英语.mp3" id="6_v64lf"]
+[ext_resource type="Texture2D" uid="uid://c7o0xg1ytl8ca" path="res://pics/选语言小鲨鱼-sheet0.png" id="7_37m0h"]
+[ext_resource type="AudioStream" uid="uid://gpx8gn18ejc3" path="res://media/选语言/选了日语.mp3" id="7_v64lf"]
+[ext_resource type="AudioStream" uid="uid://dtxqdfdnwcoad" path="res://media/选语言/选了中文.mp3" id="8_6stlo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8i3be"]
+shader = ExtResource("1_ptp7h")
+shader_parameter/tiling = Vector2(10, 10)
+shader_parameter/offset = Vector2(-1, -1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_l8j5j"]
+blend_mode = 3
+
+[sub_resource type="Gradient" id="Gradient_redmh"]
+colors = PackedColorArray(1, 0.35686275, 0.13725491, 1, 1, 1, 0.4509804, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sr7j5"]
+gradient = SubResource("Gradient_redmh")
+use_hdr = true
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjqxu"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(123, 192, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bm87u"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(41, 128, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37m0h"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(164, 192, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ow6p"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(123, 192, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awgpe"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(82, 192, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojt0n"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(0, 64, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfwta"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(205, 64, 39, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slntj"]
+atlas = ExtResource("7_37m0h")
+region = Rect2(0, 64, 39, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6stlo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjqxu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bm87u")
+}],
+"loop": true,
+"name": &"question",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_37m0h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ow6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awgpe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ow6p")
+}],
+"loop": true,
+"name": &"talk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojt0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfwta")
+}],
+"loop": true,
+"name": &"talk_with_tired",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slntj")
+}],
+"loop": true,
+"name": &"tired",
+"speed": 5.0
+}]
+
+[sub_resource type="Shader" id="Shader_v64lf"]
+code = "shader_type canvas_item;
+uniform float dark_amount : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+    vec4 color = texture(TEXTURE, UV);
+    COLOR = mix(color, vec4(0.0), dark_amount);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v64lf"]
+shader = SubResource("Shader_v64lf")
+shader_parameter/dark_amount = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v64lf"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(207, 236, 38, 14)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_37m0h"]
+shader = SubResource("Shader_v64lf")
+shader_parameter/dark_amount = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6stlo"]
+atlas = ExtResource("4_wpsap")
+region = Rect2(2, 2, 14, 25)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6stlo"]
+shader = SubResource("Shader_v64lf")
+shader_parameter/dark_amount = 0.0
+
+[sub_resource type="Animation" id="Animation_4ow6p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SharkControl/Shark:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.5707964]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SharkControl/Shark:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_vjqxu"]
+resource_name = "idle"
+length = 2.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SharkControl/Shark:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2, 1.8, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [-1.5707964, -1.53588974175501, -1.5707964, -1.6057029118347832, -1.5707964]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SharkControl/Shark:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2, 1.8, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(5, 5), Vector2(5.2, 5), Vector2(5, 5), Vector2(5.2, 5), Vector2(5, 5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4ow6p"]
+_data = {
+&"RESET": SubResource("Animation_4ow6p"),
+&"idle": SubResource("Animation_vjqxu")
+}
+
+[sub_resource type="Animation" id="Animation_awgpe"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SharkControl/Shark:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5, 5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SharkControl:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SharkControl/Shark:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"question"]
+}
+
+[sub_resource type="Animation" id="Animation_bm87u"]
+resource_name = "be_clicked"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SharkControl:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.08, 1.08), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SharkControl/Shark:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"question", &"default"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ojt0n"]
+_data = {
+&"RESET": SubResource("Animation_awgpe"),
+&"be_clicked": SubResource("Animation_bm87u")
+}
+
+[sub_resource type="Animation" id="Animation_37m0h"]
+resource_name = "Chinese"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Audios")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ChineseButton:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ChineseButton:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ChineseButton:texture_normal")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("AtlasTexture_6stlo")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ChineseButton:position")
+tracks/4/interp = 0
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(330, 168)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Talks:stream")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("8_6stlo")]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Talks")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Audios:stream")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_sr7j5")]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("SharkControl/Shark")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"talk", 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpsap"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(207, 117, 14, 115)
+
+[sub_resource type="Animation" id="Animation_l8j5j"]
+resource_name = "English"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Audios")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnglishButton:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EnglishButton:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EnglishButton:texture_normal")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("4_sr7j5"), SubResource("AtlasTexture_wpsap")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("EnglishButton:position")
+tracks/4/interp = 0
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(272, 328), Vector2(120, 328)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Talks:stream")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_v64lf")]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Talks")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Audios:stream")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_sr7j5")]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("SharkControl/Shark")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"talk", 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1gtsp"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(226, 117, 14, 115)
+
+[sub_resource type="Animation" id="Animation_wpsap"]
+resource_name = "Japanese"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Audios")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("JapaneseButton:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("JapaneseButton:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("JapaneseButton:texture_normal")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("AtlasTexture_v64lf"), SubResource("AtlasTexture_1gtsp")]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("JapaneseButton:position")
+tracks/4/interp = 0
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(302, 178), Vector2(120, 245)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("JapaneseButton:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0.0, -1.5707963267948966]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Talks:stream")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("7_v64lf")]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Talks")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Audios:stream")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_sr7j5")]
+}
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("SharkControl/Shark")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"talk", 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_1gtsp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnglishButton:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnglishButton:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EnglishButton:texture_normal")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_sr7j5")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EnglishButton:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(272, 328)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("JapaneseButton:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("JapaneseButton:texture_normal")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("AtlasTexture_v64lf")]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("JapaneseButton:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("JapaneseButton:disabled")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("JapaneseButton:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(302, 178)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("ChineseButton:texture_normal")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("AtlasTexture_6stlo")]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("ChineseButton:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("ChineseButton:disabled")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("ChineseButton:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(330, 168)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Talks:stream")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Audios:stream")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_sr7j5")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sr7j5"]
+_data = {
+&"Chinese": SubResource("Animation_37m0h"),
+&"English": SubResource("Animation_l8j5j"),
+&"Japanese": SubResource("Animation_wpsap"),
+&"RESET": SubResource("Animation_1gtsp")
+}
+
+[node name="Lang Selection" type="Control" unique_id=418875013]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l8j5j")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1472952540]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_8i3be")
+scale = Vector2(50.125, 50.125)
+texture = ExtResource("2_qlk78")
+centered = false
+region_rect = Rect2(0, 0, 200.5, 200.5)
+
+[node name="ColorAddition" type="TextureRect" parent="." unique_id=499269335]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_l8j5j")
+layout_mode = 0
+offset_left = -18.0
+offset_top = -19.0
+offset_right = 822.0
+offset_bottom = 826.0
+texture = SubResource("GradientTexture2D_sr7j5")
+
+[node name="SharkControl" type="Control" parent="." unique_id=411097700]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(401, 551)
+
+[node name="Shark" type="AnimatedSprite2D" parent="SharkControl" unique_id=165275943]
+texture_filter = 1
+position = Vector2(450, 550)
+rotation = -1.5707964
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_6stlo")
+animation = &"question"
+
+[node name="SharkButton" type="Button" parent="SharkControl/Shark" unique_id=2006691349]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -19.5
+offset_top = -32.0
+offset_right = -19.5
+offset_bottom = -52.08599
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="JapaneseButton" type="TextureButton" parent="." unique_id=637360837]
+texture_filter = 1
+material = SubResource("ShaderMaterial_v64lf")
+layout_mode = 0
+offset_left = 302.0
+offset_top = 178.0
+offset_right = 340.0
+offset_bottom = 192.0
+scale = Vector2(5, 5)
+texture_normal = SubResource("AtlasTexture_v64lf")
+
+[node name="ChineseButton" type="TextureButton" parent="." unique_id=1149021436]
+texture_filter = 1
+material = SubResource("ShaderMaterial_37m0h")
+layout_mode = 0
+offset_left = 330.0
+offset_top = 168.0
+offset_right = 344.00006
+offset_bottom = 193.0
+rotation = -1.5707964
+scale = Vector2(5, 5)
+texture_normal = SubResource("AtlasTexture_6stlo")
+
+[node name="EnglishButton" type="TextureButton" parent="." unique_id=2099619806]
+texture_filter = 1
+material = SubResource("ShaderMaterial_6stlo")
+layout_mode = 0
+offset_left = 272.0
+offset_top = 328.0
+offset_right = 286.0
+offset_bottom = 443.0
+rotation = -1.5707964
+scale = Vector2(5, 5)
+texture_normal = ExtResource("4_sr7j5")
+
+[node name="SharkIDLEPlayer" type="AnimationPlayer" parent="." unique_id=355099196]
+libraries/ = SubResource("AnimationLibrary_4ow6p")
+
+[node name="SharkAnimPlayer" type="AnimationPlayer" parent="." unique_id=1433830014]
+libraries/ = SubResource("AnimationLibrary_ojt0n")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=463249799]
+libraries/ = SubResource("AnimationLibrary_sr7j5")
+
+[node name="AdviceTimer" type="Timer" parent="." unique_id=1710895584]
+wait_time = 60.0
+autostart = true
+
+[node name="BGM" type="AudioStreamPlayer" parent="." unique_id=953257632]
+stream = ExtResource("3_qlk78")
+autoplay = true
+
+[node name="Audios" type="AudioStreamPlayer" parent="." unique_id=1260422727]
+stream = ExtResource("5_sr7j5")
+
+[node name="Talks" type="AudioStreamPlayer" parent="." unique_id=1687809577]
+
+[connection signal="pressed" from="SharkControl/Shark/SharkButton" to="." method="_on_shark_button_pressed"]
+[connection signal="pressed" from="JapaneseButton" to="." method="_on_japanese_pressed"]
+[connection signal="pressed" from="ChineseButton" to="." method="_on_chinese_button_pressed"]
+[connection signal="pressed" from="EnglishButton" to="." method="_on_english_button_pressed"]
+[connection signal="timeout" from="AdviceTimer" to="." method="_on_advice_timer_timeout"]

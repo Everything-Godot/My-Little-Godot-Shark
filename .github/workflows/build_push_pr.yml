@@ -1,8 +1,11 @@
 name: Build Godot Project With Latest Codes
 
 on:
-  push: {}
-  pull_request: {}
+  push:
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflows/*'
+  pull_request:
 
 jobs:
   Godot:

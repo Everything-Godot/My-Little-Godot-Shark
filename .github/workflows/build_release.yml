@@ -50,10 +50,10 @@ jobs:
       #    export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=123456
       - name: export game
         id: export
-        uses: firebelley/godot-export@v6.0.0
+        uses: firebelley/godot-export@v7.0.0
         with:
-          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.6-stable/Godot_v4.6-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.6-stable/Godot_v4.6-stable_export_templates.tpz
+          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.6.2-stable/Godot_v4.6.2-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.6.2-stable/Godot_v4.6.2-stable_export_templates.tpz
           relative_project_path: ./
           export_debug: ${{steps.get_release.outputs.prerelease}}
       - name: Upload Artifact For Linux x64 To Release

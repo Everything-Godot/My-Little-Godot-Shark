@@ -179,6 +179,18 @@ region = Rect2(62, 204, 20, 36)
 atlas = ExtResource("3_8i3be")
 region = Rect2(86, 216, 20, 36)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ji6o"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(56, 1.5, 50, 104)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ikfcy"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(110, 226, 36, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3jbdl"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(150, 226, 36, 20)
+
 [sub_resource type="Shader" id="Shader_v64lf"]
 code = "shader_type canvas_item;
 uniform float dark_amount : hint_range(0.0, 1.0) = 0.0;
@@ -1052,6 +1064,37 @@ rotation = -1.5707964
 scale = Vector2(5, 5)
 texture_normal = SubResource("AtlasTexture_pal2u")
 
+[node name="NotAdaptPrompt" type="Control" parent="." unique_id=1455387725]
+layout_mode = 1
+anchors_preset = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="NotAdaptPrompt" unique_id=198551363]
+texture_filter = 1
+position = Vector2(400, -377.99988)
+rotation = -1.5707964
+scale = Vector2(5, 5)
+texture = SubResource("AtlasTexture_7ji6o")
+
+[node name="YesButton" type="TextureButton" parent="NotAdaptPrompt" unique_id=1796154985]
+texture_filter = 1
+layout_mode = 0
+offset_left = 180.0
+offset_top = -198.0
+offset_right = 216.0
+offset_bottom = -178.0
+scale = Vector2(5, 5)
+texture_normal = SubResource("AtlasTexture_ikfcy")
+
+[node name="NoButton" type="TextureButton" parent="NotAdaptPrompt" unique_id=743066156]
+texture_filter = 1
+layout_mode = 0
+offset_left = 420.0
+offset_top = -198.0
+offset_right = 456.0
+offset_bottom = -178.0
+scale = Vector2(5, 5)
+texture_normal = SubResource("AtlasTexture_3jbdl")
+
 [node name="JapaneseButton" type="TextureButton" parent="." unique_id=637360837]
 texture_filter = 1
 material = SubResource("ShaderMaterial_v64lf")
@@ -1112,6 +1155,8 @@ stream = ExtResource("5_sr7j5")
 [connection signal="pressed" from="SharkControl/Shark/SharkButton" to="." method="_on_shark_button_pressed"]
 [connection signal="pressed" from="StartGamePrompt/YesButton" to="." method="_on_adapt_yes_button_pressed"]
 [connection signal="pressed" from="StartGamePrompt/NoButton" to="." method="_on_adapt_no_button_pressed"]
+[connection signal="pressed" from="NotAdaptPrompt/YesButton" to="." method="_on_not_adapt_yes_button_pressed"]
+[connection signal="pressed" from="NotAdaptPrompt/NoButton" to="." method="_on_not_adapt_no_button_pressed"]
 [connection signal="pressed" from="JapaneseButton" to="." method="_on_japanese_pressed"]
 [connection signal="pressed" from="ChineseButton" to="." method="_on_chinese_button_pressed"]
 [connection signal="pressed" from="EnglishButton" to="." method="_on_english_button_pressed"]

@@ -7,11 +7,17 @@ extends Control
 @onready var audios: AudioStreamPlayer = $Audios
 @onready var talks: AudioStreamPlayer = $Talks
 @onready var shark: AnimatedSprite2D = $SharkControl/Shark
+@onready var shark_control: Control = $SharkControl
 @onready var shark_button: Button = $SharkControl/Shark/SharkButton
 @onready var shark_idle_player: AnimationPlayer = $SharkIDLEPlayer
 @onready var shark_anim_player: AnimationPlayer = $SharkAnimPlayer
 @onready var advice_timer: Timer = $AdviceTimer
 @onready var adapt_no_button: TextureButton = $StartGamePrompt/NoButton
+@onready var adapt_yes_button: TextureButton = $StartGamePrompt/YesButton
+@onready var not_adapt_yes_button: TextureButton = $NotAdaptPrompt/YesButton
+@onready var not_adapt_no_button: TextureButton = $NotAdaptPrompt/NoButton
+@onready var start_game_prompt: Control = $StartGamePrompt
+@onready var not_adapt_prompt: Control = $NotAdaptPrompt
 
 var restore_chinese: bool = false
 var restore_japanese: bool = false
@@ -145,16 +151,45 @@ func _on_advice_timer_timeout() -> void:
 		restore_chinese = false
 	shark.play(save)
 
+func everything_goes_down() -> void:
+	adapt_no_button.disabled = true
+	adapt_yes_button.disabled = true
+	not_adapt_no_button.disabled = true
+	not_adapt_yes_button.disabled = true
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_property(start_game_prompt, "position", Vector2(), 1.5).set_trans(Tween.TRANS_LINEAR)
+	tween.set_parallel()
+	tween.tween_property(not_adapt_prompt, "position", Vector2(0, 600), 1.5).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(shark_control, "position", Vector2(0, 700), 1.5).set_trans(Tween.TRANS_LINEAR)
+	await tween.finished
+	not_adapt_no_button.disabled = false
+	not_adapt_yes_button.disabled = false
+
+func everything_goes_up() -> void:
+	adapt_no_button.disabled = true
+	adapt_yes_button.disabled = true
+	not_adapt_no_button.disabled = true
+	not_adapt_yes_button.disabled = true
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_property(start_game_prompt, "position", Vector2(0, -700), 1.5).set_trans(Tween.TRANS_LINEAR)
+	tween.set_parallel()
+	tween.tween_property(not_adapt_prompt, "position", Vector2(0, 0), 1.5).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(shark_control, "position", Vector2(), 1.5).set_trans(Tween.TRANS_LINEAR)
+	await tween.finished
+	adapt_no_button.disabled = false
+	adapt_yes_button.disabled = false
+
 func _on_adapt_yes_button_pressed() -> void:
 	print("User agreed to adapt the shark")
 	# TODO: Transition effect and bump to next game scene (WIP)
 
 func _on_adapt_no_button_pressed() -> void:
 	print("Disagree count: "+str(no_counter))
-	if no_counter >= 7:
-		adapt_no_button.disabled = true
-		return
+	adapt_yes_button.disabled = true
 	adapt_no_button.disabled = true
+	if no_counter >= 7:
+		everything_goes_down()
+		return
 	no_counter += 1
 	var tween: Tween = get_tree().create_tween()
 	var rand_x = randf_range(min_button_pos.x, max_button_pos.x)
@@ -166,3 +201,13 @@ func _on_adapt_no_button_pressed() -> void:
 	audios.play()
 	await tween.finished
 	adapt_no_button.disabled = false
+	adapt_yes_button.disabled = false
+
+func _on_not_adapt_no_button_pressed() -> void:
+	print("Clean disagree count")
+	no_counter = 0
+	everything_goes_up()
+
+func _on_not_adapt_yes_button_pressed() -> void:
+	print("Trigger Ending 11")
+	# TODO: Jumping to ending scene with number 11

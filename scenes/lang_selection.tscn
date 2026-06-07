@@ -21,11 +21,11 @@ shader_parameter/offset = Vector2(-1, -1)
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_l8j5j"]
 blend_mode = 3
 
-[sub_resource type="Gradient" id="Gradient_redmh"]
+[sub_resource type="Gradient" id="Gradient_vjqxu"]
 colors = PackedColorArray(1, 0.35686275, 0.13725491, 1, 1, 1, 0.4509804, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_sr7j5"]
-gradient = SubResource("Gradient_redmh")
+gradient = SubResource("Gradient_vjqxu")
 use_hdr = true
 fill_from = Vector2(0, 1)
 fill_to = Vector2(0, 0)
@@ -1145,7 +1145,6 @@ autostart = true
 
 [node name="BGM" type="AudioStreamPlayer" parent="." unique_id=953257632]
 stream = ExtResource("3_qlk78")
-autoplay = true
 
 [node name="Audios" type="AudioStreamPlayer" parent="." unique_id=1260422727]
 stream = ExtResource("5_sr7j5")
@@ -1161,3 +1160,4 @@ stream = ExtResource("5_sr7j5")
 [connection signal="pressed" from="ChineseButton" to="." method="_on_chinese_button_pressed"]
 [connection signal="pressed" from="EnglishButton" to="." method="_on_english_button_pressed"]
 [connection signal="timeout" from="AdviceTimer" to="." method="_on_advice_timer_timeout"]
+[connection signal="finished" from="BGM" to="." method="_on_bgm_finished"]

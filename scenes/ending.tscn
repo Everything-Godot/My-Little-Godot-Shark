@@ -1,0 +1,320 @@
+[gd_scene format=3 uid="uid://bcodd68br2ma3"]
+
+[ext_resource type="Shader" uid="uid://bsax7nvwdy7j1" path="res://scripts/background.gdshader" id="1_2x1jc"]
+[ext_resource type="Script" uid="uid://b2qj7eftx28sk" path="res://scenes/ending.gd" id="1_t1k4y"]
+[ext_resource type="Texture2D" uid="uid://b234uhhiji6di" path="res://pics/logo背景-sheet0.png" id="2_nfmnx"]
+[ext_resource type="Texture2D" uid="uid://cay8tirkw6m7m" path="res://pics/shared-1-sheet0.png" id="3_qa3ag"]
+[ext_resource type="Texture2D" uid="uid://dqri1cnfh0gur" path="res://textures/endings/11/title.tres" id="4_5amew"]
+[ext_resource type="Texture2D" uid="uid://8q8hglcndj3h" path="res://textures/endings/11/logo.tres" id="4_nfmnx"]
+[ext_resource type="AudioStream" uid="uid://yyyq2tcyo0cd" path="res://media/普通结局BGM.mp3" id="6_5amew"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5amew"]
+shader = ExtResource("1_2x1jc")
+shader_parameter/tiling = Vector2(10, 10)
+shader_parameter/offset = Vector2(-1, -1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75aq2"]
+atlas = ExtResource("3_qa3ag")
+region = Rect2(256, 384, 122, 122)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t1k4y"]
+blend_mode = 3
+
+[sub_resource type="Gradient" id="Gradient_redmh"]
+colors = PackedColorArray(1, 0.35686275, 0.13725491, 1, 1, 1, 0.4509804, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3v48n"]
+gradient = SubResource("Gradient_redmh")
+use_hdr = true
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Animation" id="Animation_nfmnx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lighting:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Lighting:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8.125, 8.125)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EndingControls:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EndingControls:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("You Win Title:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("You Win Title:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8.2386055, 8.2386055)]
+}
+
+[sub_resource type="Animation" id="Animation_2x1jc"]
+resource_name = "ending"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lighting:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Lighting:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(8.125, 8.125), Vector2(10.125, 10.125), Vector2(8.125, 8.125), Vector2(10.125, 10.125), Vector2(8.125, 8.125)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EndingControls:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.125, 1.125), Vector2(1, 1), Vector2(1.125, 1.125), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EndingControls:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.2617993877991494, 0.0, 0.2617993877991494, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("You Win Title:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.08726646259971647, 0.0, 0.08726646259971647, 0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("You Win Title:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(7.339, 7.339), Vector2(7.5, 7.5), Vector2(7.339, 7.339), Vector2(7.5, 7.5), Vector2(7.339, 7.339)]
+}
+
+[sub_resource type="Animation" id="Animation_5amew"]
+resource_name = "start"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lighting:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(8.125, 8.125)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("You Win Title:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(8.2386055, 8.2386055)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EndingControls:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimationPlayer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"ending", -1, 1.0, false],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nfmnx"]
+_data = {
+&"RESET": SubResource("Animation_nfmnx"),
+&"ending": SubResource("Animation_2x1jc"),
+&"start": SubResource("Animation_5amew")
+}
+
+[node name="Ending" type="Control" unique_id=20849054]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t1k4y")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=161076508]
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_5amew")
+scale = Vector2(50.125, 50.125)
+texture = ExtResource("2_nfmnx")
+centered = false
+region_rect = Rect2(0, 0, 200.5, 200.5)
+
+[node name="Lighting" type="TextureRect" parent="." unique_id=136699502]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.49300003
+anchor_top = 0.5
+anchor_right = 0.49300003
+anchor_bottom = 0.5
+offset_left = -51.386017
+offset_top = -97.0
+offset_right = 70.61398
+offset_bottom = 25.0
+scale = Vector2(8.125, 8.125)
+pivot_offset = Vector2(61, 61)
+texture = SubResource("AtlasTexture_75aq2")
+
+[node name="ColorAddition" type="TextureRect" parent="." unique_id=86145541]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_t1k4y")
+layout_mode = 0
+offset_left = -18.0
+offset_top = -19.0
+offset_right = 822.0
+offset_bottom = 826.0
+texture = SubResource("GradientTexture2D_3v48n")
+
+[node name="You Win Title" type="Sprite2D" parent="." unique_id=790573796]
+texture_filter = 1
+position = Vector2(400, 400)
+scale = Vector2(8.2386055, 8.2386055)
+texture = ExtResource("4_5amew")
+
+[node name="EndingControls" type="Control" parent="." unique_id=1317720065]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(401, 401)
+
+[node name="EndingSprite" type="Sprite2D" parent="EndingControls" unique_id=1806400965]
+texture_filter = 1
+position = Vector2(411, 414)
+rotation = -1.5707964
+scale = Vector2(8.125, 8.125)
+texture = ExtResource("4_nfmnx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=120909161]
+libraries/ = SubResource("AnimationLibrary_nfmnx")
+autoplay = &"start"
+
+[node name="BGM" type="AudioStreamPlayer" parent="." unique_id=382281837]
+stream = ExtResource("6_5amew")
+
+[connection signal="finished" from="BGM" to="." method="_on_bgm_finished"]

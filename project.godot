@@ -20,6 +20,10 @@ run/main_scene="res://scenes/warning.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Global="*uid://drh058dbn7yea"
+
 [display]
 
 window/size/viewport_width=802

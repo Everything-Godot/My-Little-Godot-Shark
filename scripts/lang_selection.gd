@@ -4,6 +4,7 @@ extends Control
 @onready var japanese_button: TextureButton = $JapaneseButton
 @onready var chinese_button: TextureButton = $ChineseButton
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var bgm: AudioStreamPlayer = $BGM
 @onready var audios: AudioStreamPlayer = $Audios
 @onready var talks: AudioStreamPlayer = $Talks
 @onready var shark: AnimatedSprite2D = $SharkControl/Shark
@@ -26,7 +27,7 @@ var restore_english: bool = false
 var click_counter: int = 0
 var no_counter: int = 0
 
-var min_button_pos: Vector2 = Vector2(0.0, 800.0)
+var min_button_pos: Vector2 = Vector2(0.0, 930.0)
 var max_button_pos: Vector2 = Vector2(622.0, 1502.0)
 
 var 滑走的音效: Array = [
@@ -39,8 +40,18 @@ var 滑走的音效: Array = [
 const 小鲨鱼被点击 = preload("uid://bawkxkdwd5v8c")
 const 我觉得要不选中文吧_ = preload("uid://cbdtq71l4rp")
 const 不要再点我啦 = preload("uid://b3gbwu1kis627")
+const 选语言BGM = preload("uid://cinmnt7357121")
 
 func _ready() -> void:
+	if Global.return_from_ending:
+		print("Returned from an ending!")
+		print("Ending audio: "+str(Global.ending_audio))
+		print("Seek pos: "+str(Global.audio_seek))
+		bgm.stream = Global.ending_audio
+		bgm.play(Global.audio_seek)
+	else:
+		print("Not returning from an ending, continuing!")
+		bgm.play()
 	english_button.visible = true
 	japanese_button.visible = true
 	chinese_button.visible = true
@@ -209,5 +220,14 @@ func _on_not_adapt_no_button_pressed() -> void:
 	everything_goes_up()
 
 func _on_not_adapt_yes_button_pressed() -> void:
-	print("Trigger Ending 11")
-	# TODO: Jumping to ending scene with number 11
+	print("Triggering Ending 11")
+	Global.play_ending(11)
+
+func _on_bgm_finished() -> void:
+	if Global.return_from_ending:
+		print("Done playing ending music, returning to normal one.")
+		bgm.stream = 选语言BGM
+		bgm.play()
+		Global.return_from_ending = false
+	else:
+		pass

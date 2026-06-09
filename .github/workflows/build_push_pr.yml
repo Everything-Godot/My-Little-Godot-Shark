@@ -46,14 +46,23 @@ jobs:
           sed -i "s/mlgs/My Little Godot Shark - ${{env.dev_text}}/g" project.godot
           sed -i "s/0.0.0.0/${{env.dev_ver}}/g" project.godot
           echo 'sed -i "s/Dev Build/commit id: ${{steps.get-version-id.outputs.id}} - ${{steps.test_name.outputs.name}}/g" scenes/player.tscn'
+      - name: install wine
+        id: wine_install
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt update
+          sudo apt install -y wine64 wine32
+          echo "WINE_PATH=$(which wine)" >> $GITHUB_OUTPUT
       - name: export game
         id: export
         uses: firebelley/godot-export@v8.0.0
         with:
-          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_export_templates.tpz
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.6.3/Godot_v4.6.3-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.6.3/Godot_v4.6.3-stable_export_templates.tpz
           relative_project_path: ./
           export_debug: true
+          wine_path: ${{ steps.wine_install.outputs.WINE_PATH }}
+          verbose: true
       - name: Upload Artifact For Linux x64
         uses: actions/upload-artifact@v4.4.3
         with:

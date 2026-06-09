@@ -1,0 +1,144 @@
+[gd_scene format=3 uid="uid://bmyw6ay35ej3p"]
+
+[ext_resource type="Texture2D" uid="uid://dav8fx0sl42as" path="res://textures/game/background1.tres" id="1_uwrxv"]
+[ext_resource type="Texture2D" uid="uid://cyuyaxpgcv7cf" path="res://textures/game/window1.tres" id="1_yqjtg"]
+[ext_resource type="Texture2D" uid="uid://dgrwcgggneosb" path="res://pics/小鲨鱼-sheet0.png" id="3_lnu2h"]
+[ext_resource type="AudioStream" uid="uid://b7cxhr1auboqu" path="res://media/喂养界面/新手引导/你好.mp3" id="4_lbhrr"]
+[ext_resource type="AudioStream" uid="uid://c6uq8dljqpnkb" path="res://media/0.mp3" id="5_iywne"]
+[ext_resource type="AudioStream" uid="uid://d3o183rinivm8" path="res://media/喂养界面/新手引导/我想吃苹果.mp3" id="6_p57ef"]
+[ext_resource type="AudioStream" uid="uid://c6kkvh7hsvidj" path="res://media/喂养界面/新手引导/对对 就是那个 .mp3" id="7_u5sy4"]
+[ext_resource type="AudioStream" uid="uid://digug2agrxpna" path="res://media/喂养界面/新手引导/可以给我吗.mp3" id="8_gee14"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lbhrr"]
+atlas = ExtResource("3_lnu2h")
+region = Rect2(512, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lnu2h"]
+atlas = ExtResource("3_lnu2h")
+region = Rect2(512, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iywne"]
+atlas = ExtResource("3_lnu2h")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yqjtg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lbhrr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lnu2h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iywne")
+}],
+"loop": true,
+"name": &"happy_talking",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_p57ef"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SharkTalks:stream")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_lbhrr")]
+}
+
+[sub_resource type="Animation" id="Animation_iywne"]
+resource_name = "intro"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SharkTalks:stream")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.4, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_lbhrr"), ExtResource("6_p57ef"), ExtResource("7_u5sy4"), ExtResource("8_gee14")]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SharkTalks")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.4, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p57ef"]
+_data = {
+&"RESET": SubResource("Animation_p57ef"),
+&"intro": SubResource("Animation_iywne")
+}
+
+[node name="Game" type="Node2D" unique_id=1733863133]
+
+[node name="Window" type="Sprite2D" parent="." unique_id=1103665509]
+texture_filter = 1
+position = Vector2(569.00006, 93)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("1_yqjtg")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=225761625]
+texture_filter = 1
+position = Vector2(401, 402.00003)
+scale = Vector2(6.6, 6.6)
+texture = ExtResource("1_uwrxv")
+
+[node name="RandomLabel" type="Label" parent="." unique_id=1047722964]
+texture_filter = 1
+offset_right = 156.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+text = "DEBUG MODE: TRUE"
+
+[node name="Shark" type="AnimatedSprite2D" parent="." unique_id=1893837559]
+texture_filter = 1
+position = Vector2(420.00003, 345)
+scale = Vector2(6.5, 6.5)
+sprite_frames = SubResource("SpriteFrames_yqjtg")
+frame_progress = 0.29325536
+
+[node name="SharkTalks" type="AudioStreamPlayer" parent="." unique_id=410994354]
+stream = ExtResource("4_lbhrr")
+
+[node name="BGM" type="AudioStreamPlayer" parent="." unique_id=864994730]
+stream = ExtResource("5_iywne")
+volume_db = -10.0
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1842120933]
+libraries/ = SubResource("AnimationLibrary_p57ef")
+autoplay = &"intro"

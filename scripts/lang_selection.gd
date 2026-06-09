@@ -15,6 +15,7 @@ extends Control
 @onready var advice_timer: Timer = $AdviceTimer
 @onready var adapt_no_button: TextureButton = $StartGamePrompt/NoButton
 @onready var adapt_yes_button: TextureButton = $StartGamePrompt/YesButton
+@onready var adapt_close_button: TextureButton = $StartGamePrompt/CloseButton
 @onready var not_adapt_yes_button: TextureButton = $NotAdaptPrompt/YesButton
 @onready var not_adapt_no_button: TextureButton = $NotAdaptPrompt/NoButton
 @onready var start_game_prompt: Control = $StartGamePrompt
@@ -52,6 +53,8 @@ func _ready() -> void:
 	else:
 		print("Not returning from an ending, continuing!")
 		bgm.play()
+	adapt_close_button.disabled = true
+	adapt_close_button.visible = false
 	english_button.visible = true
 	japanese_button.visible = true
 	chinese_button.visible = true

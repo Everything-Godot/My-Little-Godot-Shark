@@ -129,7 +129,7 @@ texture_filter = 1
 position = Vector2(420.00003, 345)
 scale = Vector2(6.5, 6.5)
 sprite_frames = SubResource("SpriteFrames_yqjtg")
-frame_progress = 0.29325536
+frame_progress = 0.85324734
 
 [node name="SharkTalks" type="AudioStreamPlayer" parent="." unique_id=410994354]
 stream = ExtResource("4_lbhrr")

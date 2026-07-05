@@ -3,11 +3,24 @@
 [ext_resource type="Texture2D" uid="uid://dav8fx0sl42as" path="res://textures/game/background1.tres" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://cyuyaxpgcv7cf" path="res://textures/game/window1.tres" id="1_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://dgrwcgggneosb" path="res://pics/小鲨鱼-sheet0.png" id="3_lnu2h"]
+[ext_resource type="Script" uid="uid://bmuvhdov7vbk3" path="res://scripts/icon_manager.gd" id="3_u5sy4"]
 [ext_resource type="AudioStream" uid="uid://b7cxhr1auboqu" path="res://media/喂养界面/新手引导/你好.mp3" id="4_lbhrr"]
+[ext_resource type="Script" uid="uid://dm422edaof7ew" path="res://scripts/apple.gd" id="5_0tnpc"]
 [ext_resource type="AudioStream" uid="uid://c6uq8dljqpnkb" path="res://media/0.mp3" id="5_iywne"]
 [ext_resource type="AudioStream" uid="uid://d3o183rinivm8" path="res://media/喂养界面/新手引导/我想吃苹果.mp3" id="6_p57ef"]
-[ext_resource type="AudioStream" uid="uid://c6kkvh7hsvidj" path="res://media/喂养界面/新手引导/对对 就是那个 .mp3" id="7_u5sy4"]
-[ext_resource type="AudioStream" uid="uid://digug2agrxpna" path="res://media/喂养界面/新手引导/可以给我吗.mp3" id="8_gee14"]
+[ext_resource type="Texture2D" uid="uid://ctj6mltxyv0sn" path="res://pics/shared-0-sheet4.png" id="8_gee14"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvuet"]
+size = Vector2(822, 205)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dinhu"]
+size = Vector2(141, 829)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvpfn"]
+size = Vector2(183, 824)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0tnpc"]
+size = Vector2(831, 260)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lbhrr"]
 atlas = ExtResource("3_lnu2h")
@@ -27,7 +40,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lbhrr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -38,10 +51,17 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_iywne")
 }],
-"loop": true,
+"loop": 1,
 "name": &"happy_talking",
 "speed": 10.0
 }]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xd07"]
+atlas = ExtResource("8_gee14")
+region = Rect2(111, 98, 13, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
+size = Vector2(85, 97)
 
 [sub_resource type="Animation" id="Animation_p57ef"]
 length = 0.001
@@ -68,10 +88,10 @@ tracks/0/path = NodePath("SharkTalks:stream")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.4, 2.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("4_lbhrr"), ExtResource("6_p57ef"), ExtResource("7_u5sy4"), ExtResource("8_gee14")]
+"values": [ExtResource("4_lbhrr"), ExtResource("6_p57ef")]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -80,15 +100,9 @@ tracks/1/path = NodePath("SharkTalks")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.4, 2.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
-"args": [0.0],
-"method": &"play"
-}, {
-"args": [0.0],
-"method": &"play"
-}, {
 "args": [0.0],
 "method": &"play"
 }, {
@@ -123,6 +137,41 @@ offset_right = 156.0
 offset_bottom = 23.0
 theme_override_font_sizes/font_size = 32
 text = "DEBUG MODE: TRUE"
+metadata/_edit_use_anchors_ = true
+
+[node name="IconManager" type="Control" parent="." unique_id=67889624]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_u5sy4")
+metadata/_edit_use_anchors_ = true
+
+[node name="Ceiling" type="StaticBody2D" parent="." unique_id=240021662]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling" unique_id=1222204351]
+position = Vector2(401, -102.5)
+shape = SubResource("RectangleShape2D_kvuet")
+
+[node name="Wall2" type="StaticBody2D" parent="." unique_id=879612802]
+position = Vector2(800, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2" unique_id=455199282]
+position = Vector2(79.5, 403.5)
+shape = SubResource("RectangleShape2D_dinhu")
+
+[node name="Wall1" type="StaticBody2D" parent="." unique_id=1885499749]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall1" unique_id=122856555]
+position = Vector2(-101.5, 412)
+shape = SubResource("RectangleShape2D_kvpfn")
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=132756665]
+position = Vector2(0, 554)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=481457992]
+position = Vector2(405.5, 130)
+shape = SubResource("RectangleShape2D_0tnpc")
 
 [node name="Shark" type="AnimatedSprite2D" parent="." unique_id=1893837559]
 texture_filter = 1
@@ -130,6 +179,22 @@ position = Vector2(420.00003, 345)
 scale = Vector2(6.5, 6.5)
 sprite_frames = SubResource("SpriteFrames_yqjtg")
 frame_progress = 0.85324734
+
+[node name="Apple" type="RigidBody2D" parent="." unique_id=617099779]
+position = Vector2(150, 250)
+input_pickable = true
+lock_rotation = true
+script = ExtResource("5_0tnpc")
+
+[node name="Texture" type="Sprite2D" parent="Apple" unique_id=1508101552]
+texture_filter = 1
+position = Vector2(42.25, 48.75)
+scale = Vector2(6.5, 6.5)
+texture = SubResource("AtlasTexture_3xd07")
+
+[node name="Collision" type="CollisionShape2D" parent="Apple" unique_id=593215551]
+position = Vector2(42.5, 48.5)
+shape = SubResource("RectangleShape2D_vtaks")
 
 [node name="SharkTalks" type="AudioStreamPlayer" parent="." unique_id=410994354]
 stream = ExtResource("4_lbhrr")
@@ -142,3 +207,6 @@ autoplay = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1842120933]
 libraries/ = SubResource("AnimationLibrary_p57ef")
 autoplay = &"intro"
+
+[connection signal="mouse_entered" from="Apple" to="Apple" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Apple" to="Apple" method="_on_mouse_exited"]

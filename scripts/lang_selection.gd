@@ -45,13 +45,13 @@ const 选语言BGM = preload("uid://cinmnt7357121")
 
 func _ready() -> void:
 	if Global.return_from_ending:
-		print("Returned from an ending!")
-		print("Ending audio: "+str(Global.ending_audio))
-		print("Seek pos: "+str(Global.audio_seek))
+		Global.print_info("Returned from an ending!", self)
+		Global.print_info("Ending audio: " + Global.ending_audio.resource_path, self)
+		Global.print_info("Seek pos: " + str(Global.audio_seek), self)
 		bgm.stream = Global.ending_audio
 		bgm.play(Global.audio_seek)
 	else:
-		print("Not returning from an ending, continuing!")
+		Global.print_info("Not returning from an ending, continuing!", self)
 		bgm.play()
 	adapt_close_button.disabled = true
 	adapt_close_button.visible = false
@@ -194,11 +194,11 @@ func everything_goes_up() -> void:
 	adapt_yes_button.disabled = false
 
 func _on_adapt_yes_button_pressed() -> void:
-	print("User agreed to adapt the shark")
+	Global.print_info("User agreed to adapt the shark", self)
 	# TODO: Transition effect and bump to next game scene (WIP)
 
 func _on_adapt_no_button_pressed() -> void:
-	print("Disagree count: "+str(no_counter))
+	Global.print_info("Disagree count: " + str(no_counter), self)
 	adapt_yes_button.disabled = true
 	adapt_no_button.disabled = true
 	if no_counter >= 7:
@@ -209,7 +209,7 @@ func _on_adapt_no_button_pressed() -> void:
 	var rand_x = randf_range(min_button_pos.x, max_button_pos.x)
 	var rand_y = randf_range(min_button_pos.y, max_button_pos.y)
 	var rand_pos: Vector2 = Vector2(rand_x, rand_y)
-	print("Generated random position: "+str(rand_pos))
+	Global.print_info("Generated random position: " + str(rand_pos), self)
 	tween.tween_property(adapt_no_button, "position", rand_pos, 0.75).set_trans(Tween.TRANS_LINEAR)
 	audios.stream = 滑走的音效[randi_range(0, 3)]
 	audios.play()
@@ -218,17 +218,17 @@ func _on_adapt_no_button_pressed() -> void:
 	adapt_yes_button.disabled = false
 
 func _on_not_adapt_no_button_pressed() -> void:
-	print("Clean disagree count")
+	Global.print_info("Clean disagree count", self)
 	no_counter = 0
 	everything_goes_up()
 
 func _on_not_adapt_yes_button_pressed() -> void:
-	print("Triggering Ending 11")
+	Global.print_info("Triggering Ending 11", self)
 	Global.play_ending(11)
 
 func _on_bgm_finished() -> void:
 	if Global.return_from_ending:
-		print("Done playing ending music, returning to normal one.")
+		Global.print_info("Done playing ending music, returning to normal one.", self)
 		bgm.stream = 选语言BGM
 		bgm.play()
 		Global.return_from_ending = false

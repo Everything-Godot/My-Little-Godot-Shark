@@ -135,7 +135,7 @@ func _enter_tree() -> void:
 	rich_label.anchor_bottom = 1.0
 	rich_label.install_effect(preload("res://addons/console/system_color.gd").new())
 	panel.add_child(rich_label)
-	rich_label.append_text("Development console.\n")
+	rich_label.append_text("Development console. Modified for my project :)\n")
 	line_edit.anchor_right = 1.0
 	line_edit.placeholder_text = "Enter \"help\" for instructions"
 	if font_size > 0:
@@ -213,8 +213,6 @@ func _ready() -> void:
 	add_command("clear", clear, 0, 0, "Clears the text on the console.")
 	add_command("delete_history", delete_history, 0, 0, "Deletes the history of previously entered commands.")
 	add_command("help", help, 0, 0, "Displays instructions on how to use the console.")
-	add_command("commands_list", commands_list, 0, 0, "Lists all commands and their descriptions.")
-	add_command("commands", commands, 0, 0, "Lists commands with no descriptions.")
 	add_command("calc", calculate, ["mathematical expression to evaluate"], 0, "Evaluates the math passed in for quick arithmetic.")
 	add_command("echo", print_line, ["string"], 1, "Prints given string to the console.")
 	add_command("echo_warning", print_warning, ["string"], 1, "Prints given string as warning to the console.")
@@ -518,29 +516,6 @@ func delete_history() -> void:
 	DirAccess.remove_absolute("user://console_history.txt")
 
 
-func help() -> void:
-	rich_label.append_text("	Built in commands:
-		[system_color color=CONSOLE_COLOR_LITERAL]calc[/system_color]: Calculates a given expresion
-		[system_color color=CONSOLE_COLOR_LITERAL]clear[/system_color]: Clears the registry view
-		[system_color color=CONSOLE_COLOR_LITERAL]commands[/system_color]: Shows a reduced list of all the currently registered commands
-		[system_color color=CONSOLE_COLOR_LITERAL]commands_list[/system_color]: Shows a detailed list of all the currently registered commands
-		[system_color color=CONSOLE_COLOR_LITERAL]delete_history[/system_color]: Deletes the commands history
-		[system_color color=CONSOLE_COLOR_LITERAL]echo[/system_color]: Prints a given string to the console
-		[system_color color=CONSOLE_COLOR_LITERAL]echo_error[/system_color]: Prints a given string as an error to the console
-		[system_color color=CONSOLE_COLOR_LITERAL]echo_info[/system_color]: Prints a given string as info to the console
-		[system_color color=CONSOLE_COLOR_LITERAL]echo_warning[/system_color]: Prints a given string as warning to the console
-		[system_color color=CONSOLE_COLOR_LITERAL]pause[/system_color]: Pauses node processing
-		[system_color color=CONSOLE_COLOR_LITERAL]unpause[/system_color]: Unpauses node processing
-		[system_color color=CONSOLE_COLOR_LITERAL]quit[/system_color]: Quits the game
-	Controls:
-		[system_color color=CONSOLE_COLOR_INFO]Up[/system_color] and [system_color color=CONSOLE_COLOR_INFO]Down[/system_color] arrow keys to navigate commands history
-		[system_color color=CONSOLE_COLOR_INFO]PageUp[/system_color] and [system_color color=CONSOLE_COLOR_INFO]PageDown[/system_color] to scroll registry
-		[[system_color color=CONSOLE_COLOR_INFO]Ctrl[/system_color] + [system_color color=CONSOLE_COLOR_INFO]~[/system_color]] to change console size between half screen and full screen
-		[[system_color color=CONSOLE_COLOR_INFO]Ctrl[/system_color] + [system_color color=CONSOLE_COLOR_INFO]Mouse Wheel[/system_color]] up/down to change console font size
-		[system_color color=CONSOLE_COLOR_INFO]~[/system_color] or [system_color color=CONSOLE_COLOR_INFO]Esc[/system_color] key to close the console
-		[system_color color=CONSOLE_COLOR_INFO]Tab[/system_color] key to autocomplete, [system_color system_color=CONSOLE_COLOR_INFO]Tab[/system_color] again to cycle between matching suggestions\n\n")
-
-
 func calculate(command : String) -> void:
 	var expression := Expression.new()
 	var error = expression.parse(command)
@@ -554,22 +529,14 @@ func calculate(command : String) -> void:
 		print_error("%s" % expression.get_error_text())
 
 
-func commands() -> void:
+func help() -> void:
 	var commands := []
 	for command in console_commands:
 		if (!console_commands[command].hidden):
 			commands.append(str(command))
 	commands.sort()
-	rich_label.append_text("	")
-	rich_label.append_text(str(commands) + "\n\n")
-
-
-func commands_list() -> void:
-	var commands := []
-	for command in console_commands:
-		if (!console_commands[command].hidden):
-			commands.append(str(command))
-	commands.sort()
+	
+	rich_label.append_text("Commands:\n")
 
 	for command in commands:
 		var arguments_string := ""
@@ -579,8 +546,14 @@ func commands_list() -> void:
 				arguments_string += "  [system_color color=CONSOLE_COLOR_ERROR]<" + console_commands[command].arguments[i] + ">[/system_color]"
 			else:
 				arguments_string += "  [system_color color=CONSOLE_COLOR_INFO]<" + console_commands[command].arguments[i] + ">[/system_color]"
-		rich_label.append_text("	[system_color color=CONSOLE_COLOR_LITERAL]%s[/system_color]%s:   %s\n" % [command, arguments_string, description])
-	rich_label.append_text("\n")
+		rich_label.append_text("		[system_color color=CONSOLE_COLOR_LITERAL]%s[/system_color]%s:   %s\n" % [command, arguments_string, description])
+	rich_label.append_text("Controls:
+		[system_color color=CONSOLE_COLOR_INFO]Up[/system_color] and [system_color color=CONSOLE_COLOR_INFO]Down[/system_color] arrow keys to navigate commands history
+		[system_color color=CONSOLE_COLOR_INFO]PageUp[/system_color] and [system_color color=CONSOLE_COLOR_INFO]PageDown[/system_color] to scroll registry
+		[[system_color color=CONSOLE_COLOR_INFO]Ctrl[/system_color] + [system_color color=CONSOLE_COLOR_INFO]~[/system_color]] to change console size between half screen and full screen
+		[[system_color color=CONSOLE_COLOR_INFO]Ctrl[/system_color] + [system_color color=CONSOLE_COLOR_INFO]Mouse Wheel[/system_color]] up/down to change console font size
+		[system_color color=CONSOLE_COLOR_INFO]~[/system_color] or [system_color color=CONSOLE_COLOR_INFO]Esc[/system_color] key to close the console
+		[system_color color=CONSOLE_COLOR_INFO]Tab[/system_color] key to autocomplete, [system_color system_color=CONSOLE_COLOR_INFO]Tab[/system_color] again to cycle between matching suggestions\n\n")
 
 
 func add_input_history(text : String) -> void:

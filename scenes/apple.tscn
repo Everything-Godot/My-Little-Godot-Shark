@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cxgemclosvfdy"]
+
+[ext_resource type="PackedScene" uid="uid://y4wf4xfstn4f" path="res://scenes/dragable_item.tscn" id="1_h071m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h071m"]
+size = Vector2(85, 97)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h071m"]
+load_path = "res://.godot/imported/shared-0-sheet4.png-4dac3749b8ca806b6f792f9531e558d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vr8k"]
+atlas = SubResource("CompressedTexture2D_h071m")
+region = Rect2(111, 98, 13, 15)
+
+[node name="Apple" unique_id=1081168453 instance=ExtResource("1_h071m")]
+
+[node name="Collision" parent="." index="0" unique_id=688046532]
+position = Vector2(42.5, 48.5)
+shape = SubResource("RectangleShape2D_h071m")
+
+[node name="Texture" parent="Area2D" parent_id_path=PackedInt32Array(368425874) index="0" unique_id=1081251099]
+texture = SubResource("AtlasTexture_7vr8k")
+
+[node name="Collision" parent="Area2D" parent_id_path=PackedInt32Array(368425874) index="1" unique_id=1436368358]
+position = Vector2(42.5, 48.5)
+shape = SubResource("RectangleShape2D_h071m")

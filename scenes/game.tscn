@@ -5,10 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://dgrwcgggneosb" path="res://pics/小鲨鱼-sheet0.png" id="3_lnu2h"]
 [ext_resource type="Script" uid="uid://bmuvhdov7vbk3" path="res://scripts/icon_manager.gd" id="3_u5sy4"]
 [ext_resource type="AudioStream" uid="uid://b7cxhr1auboqu" path="res://media/喂养界面/新手引导/你好.mp3" id="4_lbhrr"]
-[ext_resource type="Script" uid="uid://dm422edaof7ew" path="res://scripts/apple.gd" id="5_0tnpc"]
 [ext_resource type="AudioStream" uid="uid://c6uq8dljqpnkb" path="res://media/0.mp3" id="5_iywne"]
 [ext_resource type="AudioStream" uid="uid://d3o183rinivm8" path="res://media/喂养界面/新手引导/我想吃苹果.mp3" id="6_p57ef"]
-[ext_resource type="Texture2D" uid="uid://ctj6mltxyv0sn" path="res://pics/shared-0-sheet4.png" id="8_gee14"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvuet"]
 size = Vector2(822, 205)
@@ -56,12 +54,12 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3xd07"]
-atlas = ExtResource("8_gee14")
-region = Rect2(111, 98, 13, 15)
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gee14"]
+load_path = "res://.godot/imported/shared-0-sheet4.png-4dac3749b8ca806b6f792f9531e558d9.ctex"
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
-size = Vector2(85, 97)
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tnpc"]
+atlas = SubResource("CompressedTexture2D_gee14")
+region = Rect2(111, 98, 13, 15)
 
 [sub_resource type="Animation" id="Animation_p57ef"]
 length = 0.001
@@ -139,14 +137,6 @@ theme_override_font_sizes/font_size = 32
 text = "DEBUG MODE: TRUE"
 metadata/_edit_use_anchors_ = true
 
-[node name="IconManager" type="Control" parent="." unique_id=67889624]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("3_u5sy4")
-metadata/_edit_use_anchors_ = true
-
 [node name="Ceiling" type="StaticBody2D" parent="." unique_id=240021662]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling" unique_id=1222204351]
@@ -180,21 +170,23 @@ scale = Vector2(6.5, 6.5)
 sprite_frames = SubResource("SpriteFrames_yqjtg")
 frame_progress = 0.85324734
 
-[node name="Apple" type="RigidBody2D" parent="." unique_id=617099779]
-position = Vector2(150, 250)
-input_pickable = true
-lock_rotation = true
-script = ExtResource("5_0tnpc")
+[node name="IconManager" type="Control" parent="." unique_id=67889624]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_u5sy4")
+metadata/_edit_use_anchors_ = true
 
-[node name="Texture" type="Sprite2D" parent="Apple" unique_id=1508101552]
+[node name="Apple" type="TextureButton" parent="IconManager" unique_id=1884852476]
 texture_filter = 1
-position = Vector2(42.25, 48.75)
-scale = Vector2(6.5, 6.5)
-texture = SubResource("AtlasTexture_3xd07")
-
-[node name="Collision" type="CollisionShape2D" parent="Apple" unique_id=593215551]
-position = Vector2(42.5, 48.5)
-shape = SubResource("RectangleShape2D_vtaks")
+layout_mode = 0
+offset_left = 52.0
+offset_top = 616.0
+offset_right = 65.0
+offset_bottom = 631.0
+scale = Vector2(9.5, 9.5)
+texture_normal = SubResource("AtlasTexture_0tnpc")
 
 [node name="SharkTalks" type="AudioStreamPlayer" parent="." unique_id=410994354]
 stream = ExtResource("4_lbhrr")
@@ -208,5 +200,4 @@ autoplay = true
 libraries/ = SubResource("AnimationLibrary_p57ef")
 autoplay = &"intro"
 
-[connection signal="mouse_entered" from="Apple" to="Apple" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="Apple" to="Apple" method="_on_mouse_exited"]
+[connection signal="pressed" from="IconManager/Apple" to="IconManager" method="_on_apple_pressed"]

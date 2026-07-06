@@ -13,24 +13,17 @@ var paused_timers: Array = []
 
 func _ready() -> void:
 	Console.add_command("go_to_scene", get_to_scene, ["scene_path"], true, "Change scene to specific one")
-	var go_to_scene_params: PackedStringArray = [
-		"res://scenes/ending.tscn",
-		"res://scenes/game.tscn",
-		"res://scenes/lang_selection.tscn",
-		"res://scenes/logo.tscn",
-		"res://scenes/warning.tscn"
-	]
-	Console.add_command_autocomplete_list("go_to_scene", go_to_scene_params)
+	Console.add_command_autocomplete_list("go_to_scene", find_files(".tscn"))
 	Console.add_command("play_audio", play_audio, ["audio_path"], true, "Play specific audio file")
-	Console.add_command_autocomplete_list("play_audio", find_mp3_files())
+	Console.add_command_autocomplete_list("play_audio", find_files(".mp3"))
 
-func find_mp3_files(path: String = "res://") -> Array:
-	var mp3_files: Array = []
+func find_files(extension: String, path: String = "res://") -> Array:
+	var files: Array = []
 	var dir = DirAccess.open(path)
 	
 	if not dir:
-		print_error("无法打开目录: " + path, self)
-		return mp3_files
+		Global.print_error("无法打开目录: " + path, self)
+		return files
 	
 	dir.list_dir_begin()
 	var item = dir.get_next()
@@ -40,20 +33,23 @@ func find_mp3_files(path: String = "res://") -> Array:
 			var full_path = path + "/" + item
 			
 			if dir.current_is_dir():
-				var sub_files = find_mp3_files(full_path)
-				mp3_files.append_array(sub_files)
+				var sub_files = find_files(extension, full_path)
+				files.append_array(sub_files)
 			else:
-				if item.to_lower().ends_with(".mp3"):
-					mp3_files.append(full_path)
+				if item.to_lower().ends_with(extension):
+					files.append(full_path)
 		
 		item = dir.get_next()
 	
 	dir.list_dir_end()
-	return mp3_files
+	if len(files) > 0:
+		Global.print_info("Find " + str(len(files)) + " files in " + path + " with extension " + extension, self)
+	return files
 
 func get_to_scene(scene: String) -> void:
-	print_info("Changing scene to " + scene, self)
-	get_tree().change_scene_to_file(scene)
+	if FileAccess.file_exists(scene):
+		print_info("Changing scene to " + scene, self)
+		get_tree().change_scene_to_file(scene)
 
 func force_play(end: String) -> void:
 	force_command = true
@@ -98,6 +94,7 @@ func pause_all_timers(node: Node = get_tree().root):
 			pause_all_timers(child)
 
 func play_audio(path: String) -> void:
+	if not FileAccess.file_exists(path): return
 	if player is AudioStreamPlayer:
 		print_warning("Already has player, deleting it", self)
 		player.queue_free()

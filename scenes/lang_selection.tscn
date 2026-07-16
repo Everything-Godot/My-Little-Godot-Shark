@@ -363,7 +363,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+"values": [Vector2(1, 1), Vector2(1.15, 1.15), Vector2(1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1005,6 +1005,7 @@ offset_left = -18.0
 offset_top = -19.0
 offset_right = 822.0
 offset_bottom = 826.0
+mouse_filter = 2
 texture = SubResource("GradientTexture2D_sr7j5")
 
 [node name="SharkControl" type="Control" parent="." unique_id=411097700]
@@ -1043,6 +1044,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="StartGamePrompt" unique_id=799941444]
 texture_filter = 1
@@ -1086,6 +1088,7 @@ texture_normal = SubResource("AtlasTexture_tepeu")
 [node name="NotAdaptPrompt" type="Control" parent="." unique_id=1455387725]
 layout_mode = 1
 anchors_preset = 0
+mouse_filter = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="NotAdaptPrompt" unique_id=198551363]
 texture_filter = 1

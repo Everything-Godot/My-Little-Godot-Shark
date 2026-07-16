@@ -5,3 +5,4 @@ My Little Shark made with godot!
 ![downloads](https://img.shields.io/github/downloads/Everything-Godot/Baldi-Godot-Remakes/total?style=flat&label=Downloads)
 
 All assets copyrights goes to warma :)  
+And if this project isn't should be exist, contact me and i will delete them.

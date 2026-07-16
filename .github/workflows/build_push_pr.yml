@@ -39,8 +39,8 @@ jobs:
       #  with:
       #   java-version: '21'
       #   distribution: 'temurin'
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v4.0.1
+      #- name: Setup Android SDK
+      #  uses: android-actions/setup-android@v4.0.1
       - name: Set Project Name
         run: |
           sed -i "s/mlgs/My Little Godot Shark - ${{env.dev_text}}/g" project.godot

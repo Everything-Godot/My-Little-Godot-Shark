@@ -62,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
-          asset_name: Linux x64 - v${{github.event.release.name}}.x86_64
+          asset_name: Linux x64 - ${{github.event.release.name}}.x86_64
           asset_path: /home/runner/.local/share/godot/builds/Linux x64/linux.x86_64
           asset_content_type: application/zip
       - name: Upload Artifact For Linux x86 To Release
@@ -71,7 +71,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
-          asset_name: Linux x86 - v${{github.event.release.name}}.x86_32
+          asset_name: Linux x86 - ${{github.event.release.name}}.x86_32
           asset_path: /home/runner/.local/share/godot/builds/Linux x86/linux.x86_32
           asset_content_type: application/zip
       - name: Upload Artifact For Linux arm64 To Release
@@ -80,7 +80,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
-          asset_name: Linux arm64 - v${{github.event.release.name}}.arm64
+          asset_name: Linux arm64 - ${{github.event.release.name}}.arm64
           asset_path: /home/runner/.local/share/godot/builds/Linux arm64/linux.arm64
           asset_content_type: application/zip
       - name: Upload Artifact For Linux arm32 To Release
@@ -89,7 +89,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
-          asset_name: Linux arm32 - v${{github.event.release.name}}.arm32
+          asset_name: Linux arm32 - ${{github.event.release.name}}.arm32
           asset_path: /home/runner/.local/share/godot/builds/Linux arm32/linux.arm32
           asset_content_type: application/zip
       #- name: Upload Artifact For Linux rv64 To Release
@@ -98,7 +98,7 @@ jobs:
       #    GITHUB_TOKEN: ${{ secrets.TOKEN }}
       #  with:
       #    upload_url: ${{steps.get_release.outputs.upload_url}}
-      #    asset_name: Linux rv64 - v${{github.event.release.name}}.rv64
+      #    asset_name: Linux rv64 - ${{github.event.release.name}}.rv64
       #    asset_path: /home/runner/.local/share/godot/builds/Linux rv64/linux.rv64
       #    asset_content_type: application/zip
       #- name: Upload Artifact For Linux ppc64 To Release
@@ -107,7 +107,7 @@ jobs:
       #    GITHUB_TOKEN: ${{ secrets.TOKEN }}
       #  with:
       #    upload_url: ${{steps.get_release.outputs.upload_url}}
-      #    asset_name: Linux ppc64 - v${{github.event.release.name}}.ppc64
+      #    asset_name: Linux ppc64 - ${{github.event.release.name}}.ppc64
       #    asset_path: /home/runner/.local/share/godot/builds/Linux ppc64/linux.ppc64
       #    asset_content_type: application/zip
       #- name: Upload Artifact For Linux ppc32 To Release
@@ -116,7 +116,7 @@ jobs:
       #    GITHUB_TOKEN: ${{ secrets.TOKEN }}
       #  with:
       #    upload_url: ${{steps.get_release.outputs.upload_url}}
-      #    asset_name: Linux ppc32 - v${{github.event.release.name}}.ppc32
+      #    asset_name: Linux ppc32 - ${{github.event.release.name}}.ppc32
       #    asset_path: /home/runner/.local/share/godot/builds/Linux ppc32/linux.ppc32
       #    asset_content_type: application/zip
       #- name: Upload Artifact For MacOS To Release
@@ -126,7 +126,7 @@ jobs:
       #  with:
       #    upload_url: ${{steps.get_release.outputs.upload_url}}
       #    asset_path: /home/runner/.local/share/godot/builds/macOS/mac.zip
-      #    asset_name: MacOS - v${{github.event.release.name}}.zip
+      #    asset_name: MacOS - ${{github.event.release.name}}.zip
       #    asset_content_type: application/zip
       - name: Upload Artifact For Windows x64 To Release
         uses: actions/upload-release-asset@main
@@ -135,7 +135,7 @@ jobs:
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
           asset_path: /home/runner/.local/share/godot/builds/Windows Desktop x64/win64.exe
-          asset_name: Windows x64 - v${{github.event.release.name}}.exe
+          asset_name: Windows x64 - ${{github.event.release.name}}.exe
           asset_content_type: application/zip
       - name: Upload Artifact For Windows x86 To Release
         uses: actions/upload-release-asset@main
@@ -144,7 +144,7 @@ jobs:
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
           asset_path: /home/runner/.local/share/godot/builds/Windows Desktop x86/win86.exe
-          asset_name: Windows x86 - v${{github.event.release.name}}.exe
+          asset_name: Windows x86 - ${{github.event.release.name}}.exe
           asset_content_type: application/zip
       - name: Upload Artifact For Windows arm64 To Release
         uses: actions/upload-release-asset@main
@@ -153,7 +153,7 @@ jobs:
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
           asset_path: /home/runner/.local/share/godot/builds/Windows Desktop arm64/winarm64.exe
-          asset_name: Windows arm64 - v${{github.event.release.name}}.exe
+          asset_name: Windows arm64 - ${{github.event.release.name}}.exe
           asset_content_type: application/zip
       #- name: Upload Artifact For Android To Release
       #  uses: actions/upload-release-asset@main
@@ -162,7 +162,7 @@ jobs:
       #  with:
       #    upload_url: ${{steps.get_release.outputs.upload_url}}
       #    asset_path: /home/runner/.local/share/godot/builds/Android/android.apk
-      #    asset_name: Android - v${{github.event.release.name}}.apk
+      #    asset_name: Android - ${{github.event.release.name}}.apk
       #    asset_content_type: application/zip
       - name: Pack Web Artifacts
         run: |
@@ -173,6 +173,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{steps.get_release.outputs.upload_url}}
-          asset_path: /home/runner/.local/share/godot/builds/Web/web.7z
-          asset_name: Web - v${{github.event.release.name}}.7z
+          asset_path: /home/runner/.local/share/godot/builds/Web/web.zip
+          asset_name: Web - ${{github.event.release.name}}.zip
           asset_content_type: application/zip

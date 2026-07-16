@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bw32w3mda3c4n" path="res://scripts/lang_selection.gd" id="1_l8j5j"]
 [ext_resource type="Shader" uid="uid://bsax7nvwdy7j1" path="res://scripts/background.gdshader" id="1_ptp7h"]
+[ext_resource type="Shader" uid="uid://yo22ns50vr4x" path="res://scripts/pixelize.gdshader" id="2_4ow6p"]
 [ext_resource type="Texture2D" uid="uid://b234uhhiji6di" path="res://pics/logo背景-sheet0.png" id="2_qlk78"]
 [ext_resource type="Texture2D" uid="uid://bgiboftgq7akc" path="res://pics/shared-1-sheet3.png" id="3_8i3be"]
 [ext_resource type="AudioStream" uid="uid://cinmnt7357121" path="res://media/选语言BGM.mp3" id="3_qlk78"]
@@ -29,34 +30,6 @@ gradient = SubResource("Gradient_vjqxu")
 use_hdr = true
 fill_from = Vector2(0, 1)
 fill_to = Vector2(0, 0)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tr6md"]
-atlas = ExtResource("3_8i3be")
-region = Rect2(2, 1.5, 50, 104)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pix15"]
-atlas = ExtResource("3_8i3be")
-region = Rect2(62, 204, 20, 36)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pal2u"]
-atlas = ExtResource("3_8i3be")
-region = Rect2(86, 216, 20, 36)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tepeu"]
-atlas = ExtResource("4_wpsap")
-region = Rect2(18, 16, 13, 13)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7ji6o"]
-atlas = ExtResource("3_8i3be")
-region = Rect2(56, 1.5, 50, 104)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ikfcy"]
-atlas = ExtResource("3_8i3be")
-region = Rect2(110, 226, 36, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3jbdl"]
-atlas = ExtResource("3_8i3be")
-region = Rect2(150, 226, 36, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3s8pu"]
 atlas = ExtResource("7_37m0h")
@@ -194,6 +167,34 @@ animations = [{
 "name": &"tired",
 "speed": 5.0
 }]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tr6md"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(2, 1.5, 50, 104)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pix15"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(62, 204, 20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pal2u"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(86, 216, 20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tepeu"]
+atlas = ExtResource("4_wpsap")
+region = Rect2(18, 16, 13, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ji6o"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(56, 1.5, 50, 104)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ikfcy"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(110, 226, 36, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3jbdl"]
+atlas = ExtResource("3_8i3be")
+region = Rect2(150, 226, 36, 20)
 
 [sub_resource type="Shader" id="Shader_v64lf"]
 code = "shader_type canvas_item;
@@ -974,6 +975,10 @@ _data = {
 &"RESET": SubResource("Animation_1gtsp")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vjqxu"]
+shader = ExtResource("2_4ow6p")
+shader_parameter/cell_size = 1
+
 [node name="Lang Selection" type="Control" unique_id=418875013]
 layout_mode = 3
 anchors_preset = 15
@@ -1001,6 +1006,35 @@ offset_top = -19.0
 offset_right = 822.0
 offset_bottom = 826.0
 texture = SubResource("GradientTexture2D_sr7j5")
+
+[node name="SharkControl" type="Control" parent="." unique_id=411097700]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(401, 551)
+
+[node name="Shark" type="AnimatedSprite2D" parent="SharkControl" unique_id=165275943]
+texture_filter = 1
+position = Vector2(450, 550)
+rotation = -1.5707964
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_6stlo")
+animation = &"question"
+
+[node name="SharkButton" type="Button" parent="SharkControl/Shark" unique_id=2006691349]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -19.5
+offset_top = -32.0
+offset_right = -19.5
+offset_bottom = -52.08599
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
 
 [node name="StartGamePrompt" type="Control" parent="." unique_id=2100747721]
 layout_mode = 1
@@ -1080,35 +1114,6 @@ offset_bottom = -178.0
 scale = Vector2(5, 5)
 texture_normal = SubResource("AtlasTexture_3jbdl")
 
-[node name="SharkControl" type="Control" parent="." unique_id=411097700]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(401, 551)
-
-[node name="Shark" type="AnimatedSprite2D" parent="SharkControl" unique_id=165275943]
-texture_filter = 1
-position = Vector2(450, 550)
-rotation = -1.5707964
-scale = Vector2(5, 5)
-sprite_frames = SubResource("SpriteFrames_6stlo")
-animation = &"question"
-
-[node name="SharkButton" type="Button" parent="SharkControl/Shark" unique_id=2006691349]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -19.5
-offset_top = -32.0
-offset_right = -19.5
-offset_bottom = -52.08599
-grow_horizontal = 2
-grow_vertical = 2
-flat = true
-
 [node name="JapaneseButton" type="TextureButton" parent="." unique_id=637360837]
 texture_filter = 1
 material = SubResource("ShaderMaterial_v64lf")
@@ -1166,11 +1171,21 @@ stream = ExtResource("5_sr7j5")
 
 [node name="Talks" type="AudioStreamPlayer" parent="." unique_id=1687809577]
 
+[node name="Effects" type="ColorRect" parent="." unique_id=1363993288]
+material = SubResource("ShaderMaterial_vjqxu")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="pressed" from="SharkControl/Shark/SharkButton" to="." method="_on_shark_button_pressed"]
 [connection signal="pressed" from="StartGamePrompt/YesButton" to="." method="_on_adapt_yes_button_pressed"]
 [connection signal="pressed" from="StartGamePrompt/NoButton" to="." method="_on_adapt_no_button_pressed"]
 [connection signal="pressed" from="NotAdaptPrompt/YesButton" to="." method="_on_not_adapt_yes_button_pressed"]
 [connection signal="pressed" from="NotAdaptPrompt/NoButton" to="." method="_on_not_adapt_no_button_pressed"]
-[connection signal="pressed" from="SharkControl/Shark/SharkButton" to="." method="_on_shark_button_pressed"]
 [connection signal="pressed" from="JapaneseButton" to="." method="_on_japanese_pressed"]
 [connection signal="pressed" from="ChineseButton" to="." method="_on_chinese_button_pressed"]
 [connection signal="pressed" from="EnglishButton" to="." method="_on_english_button_pressed"]

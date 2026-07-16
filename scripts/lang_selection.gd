@@ -42,6 +42,9 @@ const 小鲨鱼被点击 = preload("uid://bawkxkdwd5v8c")
 const 我觉得要不选中文吧_ = preload("uid://cbdtq71l4rp")
 const 不要再点我啦 = preload("uid://b3gbwu1kis627")
 const 选语言BGM = preload("uid://cinmnt7357121")
+const 确认放弃 = preload("uid://b5xtrt4620ln8")
+const 确认领养 = preload("uid://dlg36fansjobh")
+
 
 func _ready() -> void:
 	if Global.return_from_ending:
@@ -195,7 +198,14 @@ func everything_goes_up() -> void:
 
 func _on_adapt_yes_button_pressed() -> void:
 	Global.print_info("User agreed to adapt the shark", self)
-	# TODO: Transition effect and bump to next game scene (WIP)
+	audios.stream = 确认领养
+	audios.play()
+	var tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_method(func(value): $Effects.material.set_shader_parameter("cell_size", value), 1, 64, 1)
+	await audios.finished
+	await tween.finished
+	tween.kill()
+	Global.get_to_scene("res://scenes/game.tscn")
 
 func _on_adapt_no_button_pressed() -> void:
 	Global.print_info("Disagree count: " + str(no_counter), self)
@@ -223,6 +233,9 @@ func _on_not_adapt_no_button_pressed() -> void:
 	everything_goes_up()
 
 func _on_not_adapt_yes_button_pressed() -> void:
+	audios.stream = 确认放弃
+	audios.play()
+	await audios.finished
 	Global.print_info("Triggering Ending 11", self)
 	Global.play_ending(11)
 

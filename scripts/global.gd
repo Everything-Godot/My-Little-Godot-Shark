@@ -13,9 +13,19 @@ var paused_timers: Array = []
 
 func _ready() -> void:
 	Console.add_command("go_to_scene", get_to_scene, ["scene_path"], true, "Change scene to specific one")
-	Console.add_command_autocomplete_list("go_to_scene", find_files(".tscn"))
+	if ResourceLoader.exists("res://scene_list.gd"):
+		var scene_script = load("res://scene_list.gd")
+		if scene_script:
+			var scenes = scene_script.get_scene_paths()
+			Console.add_command_autocomplete_list("go_to_scene", scenes)
+			Global.print_info("Registered " + str(scenes.size()) + " scenes for autocomplete", self)
 	Console.add_command("play_audio", play_audio, ["audio_path"], true, "Play specific audio file")
-	Console.add_command_autocomplete_list("play_audio", find_files(".mp3"))
+	if ResourceLoader.exists("res://audio_list.gd"):
+		var mp3_script = load("res://audio_list.gd")
+		if mp3_script:
+			var mp3s = mp3_script.get_audio_paths()
+			Console.add_command_autocomplete_list("play_audio", mp3s)
+			Global.print_info("Registered " + str(mp3s.size()) + " MP3s for autocomplete", self)
 
 func find_files(extension: String, path: String = "res://") -> Array:
 	var files: Array = []
@@ -47,9 +57,11 @@ func find_files(extension: String, path: String = "res://") -> Array:
 	return files
 
 func get_to_scene(scene: String) -> void:
-	if FileAccess.file_exists(scene):
+	if ResourceLoader.exists(scene):
 		print_info("Changing scene to " + scene, self)
-		get_tree().change_scene_to_file(scene)
+		get_tree().change_scene_to_packed(ResourceLoader.load(scene))
+	else:
+		print_warning("File not exist! Path: " + scene, self)
 
 func force_play(end: String) -> void:
 	force_command = true
@@ -60,7 +72,7 @@ func force_play(end: String) -> void:
 			ending_sprite = load("res://textures/endings/11/logo.tres")
 			ending_title = load("res://textures/endings/11/title.tres")
 			ending_audio = load("res://media/普通结局BGM.mp3")
-			get_tree().change_scene_to_file("res://scenes/ending.tscn")
+			get_to_scene("res://scenes/ending.tscn")
 		_:
 			print_warning("Ending "+str(ending)+" not found!", self)
 
@@ -71,7 +83,7 @@ func play_ending(end: int) -> void:
 			ending_sprite = load("res://textures/endings/11/logo.tres")
 			ending_title = load("res://textures/endings/11/title.tres")
 			ending_audio = load("res://media/普通结局BGM.mp3")
-			get_tree().change_scene_to_file("res://scenes/ending.tscn")
+			get_to_scene("res://scenes/ending.tscn")
 		_:
 			print_warning("Ending "+str(ending)+" not found!", self)
 
@@ -79,6 +91,9 @@ func pause_all_audio_players(node: Node = get_tree().root):
 	for child in node.get_children():
 		if child is AudioStreamPlayer or child is AudioStreamPlayer2D or child is AudioStreamPlayer3D:
 			if not child.stream_paused:
+				paused_players.append(child)
+				child.stream_paused = true
+			elif child.name == "BGM":
 				paused_players.append(child)
 				child.stream_paused = true
 		if child.get_child_count() > 0:
@@ -94,10 +109,17 @@ func pause_all_timers(node: Node = get_tree().root):
 			pause_all_timers(child)
 
 func play_audio(path: String) -> void:
-	if not FileAccess.file_exists(path): return
-	if player is AudioStreamPlayer:
-		print_warning("Already has player, deleting it", self)
-		player.queue_free()
+	if not ResourceLoader.exists(path):
+		print_warning("File not exist! Path: " + path, self)
+		return
+	if player and is_instance_valid(player):
+		if player is AudioStreamPlayer:
+			print_warning("Already has player, deleting it", self)
+			player.stop()
+			player.queue_free()
+			player = null 
+			paused_players.clear()
+			paused_timers.clear()
 	pause_all_audio_players()
 	pause_all_timers()
 	print_info("Created paused_players array: " + str(paused_players), self)
@@ -105,9 +127,17 @@ func play_audio(path: String) -> void:
 	player = AudioStreamPlayer.new()
 	add_child(player)
 	print_info("AudioStreamPlayer created: " + str(player.get_path()), self)
-	var audio: AudioStreamMP3 = load(path)
+	var audio = ResourceLoader.load(path)
 	player.stream = audio
-	print_info("Audio " + path + " loaded, length " + str(audio.get_length()) + "s", self)
+	var length = int(audio.get_length())
+	if length > 60:
+		var minutes = int(length / 60.0)
+		var seconds = int(length % 60)
+		print_info("Audio " + path + " loaded, length " + str(minutes) + "m " + str(seconds) + "s", self)
+	elif length > 0:
+		print_info("Audio " + path + " loaded, length " + str(length) + "s", self)
+	else:
+		print_info("Audio " + path + " loaded, length " + str(audio.get_length()) + "s", self)
 	player.finished.connect(_on_player_finished)
 	player.play()
 	print_info("Start playing audio", self)
@@ -115,11 +145,17 @@ func play_audio(path: String) -> void:
 func _on_player_finished() -> void:
 	print_info("Audio finished playing, resume all paused players", self)
 	for audio_player in paused_players:
-		audio_player.stream_paused = false
+		if audio_player and is_instance_valid(audio_player):
+			audio_player.stream_paused = false
 	for timer in paused_timers:
-		timer.paused = false
+		if timer and is_instance_valid(timer):
+			timer.paused = false
 	print_info("Deleting player", self)
+	player.stop()
 	player.queue_free()
+	player = null 
+	paused_players.clear()
+	paused_timers.clear()
 	print_info("Done", self)
 
 func print_info(msg: Variant, where: Node) -> void:

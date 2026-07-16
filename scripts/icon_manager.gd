@@ -1,13 +1,23 @@
 extends Control
 class_name IconManager
 
+@export var test: bool = false
 @onready var apple: TextureButton = $Apple
+@onready var dumbbell: TextureButton = $Dumbbell
+@onready var sleep: TextureButton = $Sleep
+@onready var light: TextureButton = $Light
+@onready var trash_can: TextureButton = $TrashCan
+@onready var outside: TextureButton = $Outside
+@onready var hand: Sprite2D = $"../Hand"
+@onready var anim: AnimationPlayer = $"../AnimationPlayer"
 
 const APPLE = preload("uid://cxgemclosvfdy")
 
-var dragable_list: Array[Area2D] = []  # Now using Area2D
+var dragable_list: Array[Area2D] = []
+var allow_drag: bool = true
 var currently_dragging: Area2D = null
 var random: bool = false
+var tween: Tween
 
 # Not using, just for refrence
 enum IconList {
@@ -19,24 +29,85 @@ enum IconList {
 	出门 = 5
 }
 
+var icon_list: Array
+
 func _ready() -> void:
+	icon_list = [
+		apple,
+		dumbbell,
+		sleep,
+		light,
+		trash_can,
+		outside
+	]
+	apple.visible = false
+	dumbbell.visible = false
+	sleep.visible = false
+	light.visible = false
+	trash_can.visible = false
+	outside.visible = false
+	hand.visible = false
+	activate_icon(0)
+	if test:
+		keep_random_force_to_all_dragable()
 	Console.add_command("activate_icon", activate_icon, ["icon"], true, "Activate specific icon.")
-	var icon_list_param := [
+	var icon_list_param:PackedStringArray = [
 		0, 1, 2, 3, 4, 5
 	]
 	Console.add_command_autocomplete_list("activate_icon", icon_list_param)
 	Console.add_command("clean_all_dragable", clean_all_dragable, [], false, "Clean all dragable items.")
 	Console.add_command("random_force_to_all_dragable", keep_random_force_to_all_dragable, [], false, "Add random force to all dragable items.")
-	activate_icon(0)
-	keep_random_force_to_all_dragable()
+	for icon in icon_list:
+		var tweena = get_tree().create_tween().bind_node(icon).set_trans(Tween.TRANS_LINEAR)
+		tweena.tween_property(icon, "scale", Vector2(7.15, 7.15), 1)
+		tweena.tween_property(icon, "scale", Vector2(7, 7), 1)
+		tweena.set_loops()
 
-func activate_icon(icon: int) -> void:
+func activate_icon(icon: Variant) -> void:
 	match icon:
+		"0":
+			Global.print_info("Activating apple icon.", self)
+			apple.visible = true
+		"1":
+			Global.print_info("Activating dumbbell icon.", self)
+			dumbbell.visible = true
+		"2":
+			Global.print_info("Activating sleep icon.", self)
+			sleep.visible = true
+		"3":
+			Global.print_info("Activating light icon.", self)
+			light.visible = true
+		"4":
+			Global.print_info("Activating trash can icon.", self)
+			trash_can.visible = true
+		"5":
+			Global.print_info("Activating outside icon.", self)
+			outside.visible = true
 		0:
 			Global.print_info("Activating apple icon.", self)
 			apple.visible = true
+		1:
+			Global.print_info("Activating dumbbell icon.", self)
+			dumbbell.visible = true
+		2:
+			Global.print_info("Activating sleep icon.", self)
+			sleep.visible = true
+		3:
+			Global.print_info("Activating light icon.", self)
+			light.visible = true
+		4:
+			Global.print_info("Activating trash can icon.", self)
+			trash_can.visible = true
+		5:
+			Global.print_info("Activating outside icon.", self)
+			outside.visible = true
 
 func _on_apple_pressed() -> void:
+	if hand.visible:
+		hand.visible = false
+		tween.kill()
+		tween = null
+		anim.play("want apple")
 	var APPLE_ : RigidBody2D = APPLE.instantiate()
 	APPLE_.name = "APPLE_" + str(len(dragable_list) + 1)
 	Global.print_info("Spawning new apple with name " + APPLE_.name, self)
@@ -72,17 +143,32 @@ func random_force_to_all_dragable() -> void:
 
 func keep_random_force_to_all_dragable() -> void:
 	random = !random
+	if len(dragable_list) <= 0:
+		Global.print_warning("Dragable list is empty, reset to false.", self)
+		random = false
 	Global.print_info("Status: " + str(random), self)
-	while random:
+	while random and len(dragable_list) > 0:
 		random_force_to_all_dragable()
 		await get_tree().create_timer(0.65).timeout
+	if len(dragable_list) <= 0 and random:
+		Global.print_warning("Dragable list is empty, reset to false.", self)
+		random = false
 
 func clean_all_dragable() -> void:
 	var result: int = 0
 	for child in get_children():
-		if child != apple:
+		if child != apple and child != dumbbell and child != sleep and child != light and child != trash_can and child != outside:
 			child.queue_free()
 			Global.print_info(child.name + " removed!", self)
 			result += 1
 	Global.print_info("Total of " + str(result) + " dragables removed! Clean dragable list.", self)
 	dragable_list.clear()
+
+func start_hand_moving() -> void:
+	hand.visible = true
+	tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(hand, "position", Vector2(118, 505), 0.3)
+	tween.tween_property(hand, "position", Vector2(118, 535), 0.3)
+	tween.tween_property(hand, "position", Vector2(118, 565), 0.3)
+	tween.tween_property(hand, "position", Vector2(118, 535), 0.3)
+	tween.set_loops()

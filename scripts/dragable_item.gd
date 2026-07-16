@@ -6,7 +6,7 @@ extends RigidBody2D
 @onready var area: Area2D = $Area2D
 
 # Drag state
-var allow_drag: bool = false
+var allow_drag: bool
 var dragging: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
 var original_gravity_scale: float = 0.0
@@ -28,8 +28,6 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		var mouse_button_pressed = event.is_pressed()
-		
 		# Safety check: if mouse is released but we're still dragging
 		if not event.is_pressed() and dragging:
 			# Force stop dragging
@@ -37,7 +35,7 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 # Area2D input event - THIS IS THE KEY
-func _on_area_input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
+func _on_area_input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.is_pressed() and allow_drag and not dragging:
 			start_drag(event.global_position)
@@ -84,6 +82,9 @@ func stop_drag() -> void:
 	# Tell parent to re-enable other apples
 	#if get_parent().has_method("set_other_dragable_on"):
 	#	get_parent().set_other_dragable_on(area)
+
+func _process(_delta: float) -> void:
+	allow_drag = get_parent().allow_drag
 
 func _physics_process(delta: float) -> void:
 	if dragging:

@@ -10,7 +10,6 @@ const Logo_Voice = [
 	preload("uid://brh4g1u1ylpd4"),
 	preload("uid://ct58gwtfxoong")
 ]
-const lang_selection_scene = preload("uid://1son51gbs8me")
 const ding_dong = preload("uid://dtgjlrl64koaq")
 
 func _ready() -> void:
@@ -23,7 +22,7 @@ func _ready() -> void:
 	audio_stream_player.stream = ding_dong
 	audio_stream_player.play()
 	await audio_stream_player.finished
-	get_tree().change_scene_to_packed(lang_selection_scene)
+	Global.get_to_scene("res://scenes/lang_selection.tscn")
 
 func rotation_finished(_anim_name: StringName) -> void:
 	rotation_player.play("logo_rotation")

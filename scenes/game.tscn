@@ -1,12 +1,20 @@
 [gd_scene format=3 uid="uid://bmyw6ay35ej3p"]
 
+[ext_resource type="Script" uid="uid://bhttbjukwn6w7" path="res://scripts/game.gd" id="1_0tnpc"]
 [ext_resource type="Texture2D" uid="uid://dav8fx0sl42as" path="res://textures/game/background1.tres" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://cyuyaxpgcv7cf" path="res://textures/game/window1.tres" id="1_yqjtg"]
+[ext_resource type="Script" uid="uid://dvnpn7fxo7lob" path="res://scripts/generate_resource_list.gd" id="2_ir15t"]
 [ext_resource type="Texture2D" uid="uid://dgrwcgggneosb" path="res://pics/小鲨鱼-sheet0.png" id="3_lnu2h"]
 [ext_resource type="Script" uid="uid://bmuvhdov7vbk3" path="res://scripts/icon_manager.gd" id="3_u5sy4"]
+[ext_resource type="Texture2D" uid="uid://dqgpbsdkv5vow" path="res://dialogs/你好.tres" id="4_gee14"]
 [ext_resource type="AudioStream" uid="uid://b7cxhr1auboqu" path="res://media/喂养界面/新手引导/你好.mp3" id="4_lbhrr"]
 [ext_resource type="AudioStream" uid="uid://c6uq8dljqpnkb" path="res://media/0.mp3" id="5_iywne"]
+[ext_resource type="Script" uid="uid://dhwd4d1ak5lb3" path="res://scripts/shark.gd" id="5_trtic"]
+[ext_resource type="Texture2D" uid="uid://ctj6mltxyv0sn" path="res://pics/shared-0-sheet4.png" id="6_kvuet"]
 [ext_resource type="AudioStream" uid="uid://d3o183rinivm8" path="res://media/喂养界面/新手引导/我想吃苹果.mp3" id="6_p57ef"]
+[ext_resource type="Texture2D" uid="uid://bu3joaiosy4c0" path="res://pics/shared-0-sheet3.png" id="10_vtaks"]
+[ext_resource type="AudioStream" uid="uid://c6kkvh7hsvidj" path="res://media/喂养界面/新手引导/对对 就是那个 .mp3" id="11_dinhu"]
+[ext_resource type="AudioStream" uid="uid://digug2agrxpna" path="res://media/喂养界面/新手引导/可以给我吗.mp3" id="12_kvuet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvuet"]
 size = Vector2(822, 205)
@@ -20,9 +28,9 @@ size = Vector2(183, 824)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0tnpc"]
 size = Vector2(831, 260)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lbhrr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir15t"]
 atlas = ExtResource("3_lnu2h")
-region = Rect2(512, 128, 128, 128)
+region = Rect2(128, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lnu2h"]
 atlas = ExtResource("3_lnu2h")
@@ -32,13 +40,29 @@ region = Rect2(512, 128, 128, 128)
 atlas = ExtResource("3_lnu2h")
 region = Rect2(384, 128, 128, 128)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssvqc"]
+atlas = ExtResource("3_lnu2h")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_264po"]
+atlas = ExtResource("3_lnu2h")
+region = Rect2(896, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rysoc"]
+atlas = ExtResource("3_lnu2h")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ca42v"]
+atlas = ExtResource("3_lnu2h")
+region = Rect2(256, 128, 128, 128)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_yqjtg"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lbhrr")
+"texture": SubResource("AtlasTexture_ir15t")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -50,9 +74,46 @@ animations = [{
 "texture": SubResource("AtlasTexture_iywne")
 }],
 "loop": 1,
-"name": &"happy_talking",
+"name": &"开心的说话",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssvqc")
+}],
+"loop": 0,
+"name": &"期待",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssvqc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_264po")
+}],
+"loop": 1,
+"name": &"期待的说话",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rysoc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ca42v")
+}],
+"loop": 1,
+"name": &"说话",
 "speed": 10.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
+size = Vector2(5.2307706, 4.923076)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pl11u"]
+atlas = ExtResource("10_vtaks")
+region = Rect2(2, 130, 30, 116)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gee14"]
 load_path = "res://.godot/imported/shared-0-sheet4.png-4dac3749b8ca806b6f792f9531e558d9.ctex"
@@ -60,6 +121,30 @@ load_path = "res://.godot/imported/shared-0-sheet4.png-4dac3749b8ca806b6f792f953
 [sub_resource type="AtlasTexture" id="AtlasTexture_0tnpc"]
 atlas = SubResource("CompressedTexture2D_gee14")
 region = Rect2(111, 98, 13, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kice"]
+atlas = SubResource("CompressedTexture2D_gee14")
+region = Rect2(95, 98, 12, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5newe"]
+atlas = SubResource("CompressedTexture2D_gee14")
+region = Rect2(2, 98, 13, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37s47"]
+atlas = SubResource("CompressedTexture2D_gee14")
+region = Rect2(19, 98, 12, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bt5mj"]
+atlas = SubResource("CompressedTexture2D_gee14")
+region = Rect2(87, 66, 15, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1j6l"]
+atlas = SubResource("CompressedTexture2D_gee14")
+region = Rect2(60, 98, 14, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dinhu"]
+atlas = ExtResource("6_kvuet")
+region = Rect2(42, 66, 14, 16)
 
 [sub_resource type="Animation" id="Animation_p57ef"]
 length = 0.001
@@ -75,6 +160,85 @@ tracks/0/keys = {
 "update": 1,
 "values": [ExtResource("4_lbhrr")]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Dialog:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_gee14")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Dialog:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(266, 173)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Dialog:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(14, 32)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Dialog:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("IconManager/Apple:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Shark:当前状态")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kvuet"]
+load_path = "res://.godot/imported/shared-0-sheet3.png-101fa8914b1dd3fae698cfb103c4d9b0.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trtic"]
+atlas = SubResource("CompressedTexture2D_kvuet")
+region = Rect2(240, 97, 14, 65)
 
 [sub_resource type="Animation" id="Animation_iywne"]
 resource_name = "intro"
@@ -86,7 +250,7 @@ tracks/0/path = NodePath("SharkTalks:stream")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.9),
+"times": PackedFloat32Array(0.01, 0.9),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [ExtResource("4_lbhrr"), ExtResource("6_p57ef")]
@@ -98,7 +262,7 @@ tracks/1/path = NodePath("SharkTalks")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.9),
+"times": PackedFloat32Array(0.01, 0.9),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [0.0],
@@ -108,14 +272,209 @@ tracks/1/keys = {
 "method": &"play"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Dialog:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.01, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("4_gee14"), SubResource("AtlasTexture_trtic")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Dialog:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.01, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(266, 173), Vector2(156, 173)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Dialog:size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(14, 32), Vector2(14, 65)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Dialog:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.01, 2.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("IconManager")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(2.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_hand_moving"
+}]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("IconManager/Apple:disabled")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Shark:当前状态")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dinhu"]
+load_path = "res://.godot/imported/shared-0-sheet3.png-101fa8914b1dd3fae698cfb103c4d9b0.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvuet"]
+atlas = SubResource("CompressedTexture2D_dinhu")
+region = Rect2(238, 2, 14, 91)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvpfn"]
+atlas = ExtResource("10_vtaks")
+region = Rect2(240, 166, 14, 65)
+
+[sub_resource type="Animation" id="Animation_vtaks"]
+resource_name = "want apple"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SharkTalks:stream")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.01, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("11_dinhu"), ExtResource("12_kvuet")]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SharkTalks")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.01, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Dialog:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.01, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [SubResource("AtlasTexture_kvuet"), SubResource("AtlasTexture_kvpfn")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Dialog:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.01, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(106, 173), Vector2(156, 173)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Dialog:size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(14, 32), Vector2(14, 65)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Dialog:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.01, 2.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Shark:当前状态")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p57ef"]
 _data = {
 &"RESET": SubResource("Animation_p57ef"),
-&"intro": SubResource("Animation_iywne")
+&"intro": SubResource("Animation_iywne"),
+&"want apple": SubResource("Animation_vtaks")
 }
 
 [node name="Game" type="Node2D" unique_id=1733863133]
+script = ExtResource("1_0tnpc")
+
+[node name="DEBUGListGenerator" type="Node" parent="." unique_id=1319065459]
+script = ExtResource("2_ir15t")
 
 [node name="Window" type="Sprite2D" parent="." unique_id=1103665509]
 texture_filter = 1
@@ -163,12 +522,29 @@ position = Vector2(0, 554)
 position = Vector2(405.5, 130)
 shape = SubResource("RectangleShape2D_0tnpc")
 
+[node name="Dialog" type="TextureRect" parent="." unique_id=1897609651]
+texture_filter = 1
+offset_left = 266.0
+offset_top = 173.0
+offset_right = 280.0
+offset_bottom = 205.0
+rotation = -1.5707964
+scale = Vector2(6.5, 6.5)
+texture = ExtResource("4_gee14")
+
 [node name="Shark" type="AnimatedSprite2D" parent="." unique_id=1893837559]
 texture_filter = 1
 position = Vector2(420.00003, 345)
 scale = Vector2(6.5, 6.5)
 sprite_frames = SubResource("SpriteFrames_yqjtg")
-frame_progress = 0.85324734
+animation = &"说话"
+script = ExtResource("5_trtic")
+
+[node name="Area2D" type="Area2D" parent="Shark" unique_id=1451142787]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shark/Area2D" unique_id=1526685270]
+position = Vector2(-11.846161, -9.2307625)
+shape = SubResource("RectangleShape2D_vtaks")
 
 [node name="IconManager" type="Control" parent="." unique_id=67889624]
 layout_mode = 3
@@ -178,15 +554,90 @@ offset_bottom = 40.0
 script = ExtResource("3_u5sy4")
 metadata/_edit_use_anchors_ = true
 
+[node name="Background" type="TextureRect" parent="IconManager" unique_id=708287117]
+texture_filter = 1
+layout_mode = 0
+offset_left = 41.0
+offset_top = 803.0
+offset_right = 81.0
+offset_bottom = 919.0
+rotation = -1.5707964
+scale = Vector2(6, 6)
+texture = SubResource("AtlasTexture_pl11u")
+
 [node name="Apple" type="TextureButton" parent="IconManager" unique_id=1884852476]
 texture_filter = 1
 layout_mode = 0
-offset_left = 52.0
-offset_top = 616.0
-offset_right = 65.0
-offset_bottom = 631.0
-scale = Vector2(9.5, 9.5)
+offset_left = 113.0
+offset_top = 681.00006
+offset_right = 126.0
+offset_bottom = 696.00006
+scale = Vector2(7, 7)
+pivot_offset = Vector2(6.5, 7.5)
 texture_normal = SubResource("AtlasTexture_0tnpc")
+
+[node name="Dumbbell" type="TextureButton" parent="IconManager" unique_id=2005237120]
+texture_filter = 1
+layout_mode = 0
+offset_left = 227.0
+offset_top = 691.0
+offset_right = 240.0
+offset_bottom = 708.0
+rotation = -1.5707964
+scale = Vector2(7, 7)
+pivot_offset = Vector2(6.5, 8.5)
+texture_normal = SubResource("AtlasTexture_1kice")
+
+[node name="Sleep" type="TextureButton" parent="IconManager" unique_id=139372278]
+texture_filter = 1
+layout_mode = 0
+offset_left = 339.00003
+offset_top = 684.0
+offset_right = 352.00003
+offset_bottom = 699.0
+scale = Vector2(7, 7)
+pivot_offset = Vector2(6.5, 7.5)
+texture_normal = SubResource("AtlasTexture_5newe")
+
+[node name="Light" type="TextureButton" parent="IconManager" unique_id=25006086]
+texture_filter = 1
+layout_mode = 0
+offset_left = 438.0
+offset_top = 683.00006
+offset_right = 451.0
+offset_bottom = 698.00006
+scale = Vector2(7, 7)
+pivot_offset = Vector2(6.5, 7.5)
+texture_normal = SubResource("AtlasTexture_37s47")
+
+[node name="TrashCan" type="TextureButton" parent="IconManager" unique_id=772160163]
+texture_filter = 1
+layout_mode = 0
+offset_left = 541.0
+offset_top = 683.0
+offset_right = 556.0
+offset_bottom = 702.0
+scale = Vector2(7, 7)
+pivot_offset = Vector2(7.5, 9.5)
+texture_normal = SubResource("AtlasTexture_bt5mj")
+
+[node name="Outside" type="TextureButton" parent="IconManager" unique_id=149492017]
+texture_filter = 1
+layout_mode = 0
+offset_left = 650.00006
+offset_top = 687.00006
+offset_right = 664.00006
+offset_bottom = 702.00006
+scale = Vector2(7, 7)
+pivot_offset = Vector2(7, 7.5)
+texture_normal = SubResource("AtlasTexture_e1j6l")
+
+[node name="Hand" type="Sprite2D" parent="." unique_id=36478612]
+texture_filter = 1
+position = Vector2(118, 535)
+rotation = -3.1415927
+scale = Vector2(7, 7)
+texture = SubResource("AtlasTexture_dinhu")
 
 [node name="SharkTalks" type="AudioStreamPlayer" parent="." unique_id=410994354]
 stream = ExtResource("4_lbhrr")
@@ -200,4 +651,10 @@ autoplay = true
 libraries/ = SubResource("AnimationLibrary_p57ef")
 autoplay = &"intro"
 
+[connection signal="area_entered" from="Shark/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="pressed" from="IconManager/Apple" to="IconManager" method="_on_apple_pressed"]
+[connection signal="pressed" from="IconManager/Dumbbell" to="IconManager" method="_on_apple_pressed"]
+[connection signal="pressed" from="IconManager/Sleep" to="IconManager" method="_on_apple_pressed"]
+[connection signal="pressed" from="IconManager/Light" to="IconManager" method="_on_apple_pressed"]
+[connection signal="pressed" from="IconManager/TrashCan" to="IconManager" method="_on_apple_pressed"]
+[connection signal="pressed" from="IconManager/Outside" to="IconManager" method="_on_apple_pressed"]

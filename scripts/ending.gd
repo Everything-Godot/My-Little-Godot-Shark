@@ -39,7 +39,7 @@ func _input(event: InputEvent) -> void:
 			bgm.stream_paused = true
 			Global.ending_audio = bgm.stream
 			Global.audio_seek = bgm.get_playback_position()
-			get_tree().change_scene_to_file("res://scenes/lang_selection.tscn")
+			Global.get_to_scene("res://scenes/lang_selection.tscn")
 
 func _on_bgm_finished() -> void:
 	bgm.play()

@@ -14,6 +14,10 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		var original_animation = shark.animation
 		var target_animation = get_animation_based_on_shark_emotion()
 		icon_manager.allow_drag = false
+		if icon_manager.tutorial_phase:
+			icon_manager.tutorial_phase = false
+			icon_manager.first_apple = null
+			$Hand.visible = false
 		shark.play(target_animation)
 		Global.print_info("Play shark eating animation named " + target_animation + " twice based on current emotion.", self)
 		await shark.animation_looped

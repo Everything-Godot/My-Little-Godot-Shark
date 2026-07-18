@@ -18,6 +18,8 @@ var allow_drag: bool = true
 var currently_dragging: Area2D = null
 var random: bool = false
 var tween: Tween
+var first_apple: Node2D = null
+var tutorial_phase: bool = true
 
 # Not using, just for refrence
 enum IconList {
@@ -103,16 +105,14 @@ func activate_icon(icon: Variant) -> void:
 			outside.visible = true
 
 func _on_apple_pressed() -> void:
-	if hand.visible:
-		hand.visible = false
-		tween.kill()
-		tween = null
-		anim.play("want apple")
 	var APPLE_ : RigidBody2D = APPLE.instantiate()
 	APPLE_.name = "APPLE_" + str(len(dragable_list) + 1)
 	Global.print_info("Spawning new apple with name " + APPLE_.name, self)
 	dragable_list.append(APPLE_.get_child(1))
 	add_child(APPLE_)
+	if not hand.visible and tutorial_phase:
+		first_apple = APPLE_
+		anim.play("want apple")
 
 func set_other_dragable_off(where: Area2D) -> void:
 	currently_dragging = where
@@ -167,8 +167,16 @@ func clean_all_dragable() -> void:
 func start_hand_moving() -> void:
 	hand.visible = true
 	tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(hand, "position", Vector2(118, 505), 0.3)
-	tween.tween_property(hand, "position", Vector2(118, 535), 0.3)
-	tween.tween_property(hand, "position", Vector2(118, 565), 0.3)
-	tween.tween_property(hand, "position", Vector2(118, 535), 0.3)
-	tween.set_loops()
+	tween.tween_property(hand, "global_position", first_apple.global_position + Vector2(52, 129), 0)
+	tween.tween_property(hand, "global_position", $"../Shark/Mouth".global_position + Vector2(-19, -3), 1.5)
+	await tween.finished
+	continue_hand_moving()
+
+func continue_hand_moving() -> void:
+	if hand.visible and tutorial_phase:
+		tween.kill()
+		tween = get_tree().create_tween().bind_node(self).set_trans(Tween.TRANS_LINEAR)
+		tween.tween_property(hand, "global_position", first_apple.global_position + Vector2(52, 129), 0)
+		tween.tween_property(hand, "global_position", $"../Shark/Mouth".global_position + Vector2(-19, -3), 1.5)
+		await tween.finished
+		continue_hand_moving()

@@ -109,7 +109,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
-size = Vector2(5.2307706, 4.923076)
+size = Vector2(5, 5)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pl11u"]
 atlas = ExtResource("10_vtaks")
@@ -320,39 +320,25 @@ tracks/5/keys = {
 "update": 1,
 "values": [true, false]
 }
-tracks/6/type = "method"
+tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("IconManager")
+tracks/6/path = NodePath("IconManager/Apple:disabled")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(2.2),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"start_hand_moving"
-}]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("IconManager/Apple:disabled")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
 "times": PackedFloat32Array(0, 2.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("Shark:当前状态")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Shark:当前状态")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -462,6 +448,20 @@ tracks/6/keys = {
 "update": 1,
 "values": [1, 2]
 }
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("IconManager")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_hand_moving"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_p57ef"]
 _data = {
@@ -540,9 +540,9 @@ sprite_frames = SubResource("SpriteFrames_yqjtg")
 animation = &"说话"
 script = ExtResource("5_trtic")
 
-[node name="Area2D" type="Area2D" parent="Shark" unique_id=1451142787]
+[node name="Mouth" type="Area2D" parent="Shark" unique_id=1451142787]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shark/Area2D" unique_id=1526685270]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shark/Mouth" unique_id=1526685270]
 position = Vector2(-11.846161, -9.2307625)
 shape = SubResource("RectangleShape2D_vtaks")
 
@@ -635,7 +635,6 @@ texture_normal = SubResource("AtlasTexture_e1j6l")
 [node name="Hand" type="Sprite2D" parent="." unique_id=36478612]
 texture_filter = 1
 position = Vector2(118, 535)
-rotation = -3.1415927
 scale = Vector2(7, 7)
 texture = SubResource("AtlasTexture_dinhu")
 
@@ -651,7 +650,7 @@ autoplay = true
 libraries/ = SubResource("AnimationLibrary_p57ef")
 autoplay = &"intro"
 
-[connection signal="area_entered" from="Shark/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Shark/Mouth" to="." method="_on_area_2d_area_entered"]
 [connection signal="pressed" from="IconManager/Apple" to="IconManager" method="_on_apple_pressed"]
 [connection signal="pressed" from="IconManager/Dumbbell" to="IconManager" method="_on_apple_pressed"]
 [connection signal="pressed" from="IconManager/Sleep" to="IconManager" method="_on_apple_pressed"]
